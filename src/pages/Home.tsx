@@ -1,56 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, MapPin, Star, Crown, TrendingUp, Users, ShieldCheck, Award } from 'lucide-react';
-import { CATEGORIES, type Business } from '../types';
-import { supabase } from '../lib/supabase';
+import { Search, MapPin, TrendingUp, Users, ShieldCheck, Award } from 'lucide-react';
+import { CATEGORIES } from '../types';
 import { motion } from 'framer-motion';
 
 const Home: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState('');
-    const [featuredBusinesses, setFeaturedBusinesses] = useState<Business[]>([]);
-
-    useEffect(() => {
-        const fetchFeatured = async () => {
-            const mockFeatured: Business[] = [
-                {
-                    id: '1',
-                    owner_id: 'real_owner_1',
-                    name: 'Restaurante Paraíso VIP',
-                    slug: 'restaurante-paraiso-vip',
-                    category: 'Restaurantes',
-                    description: 'Especialistas en comida dominicana. Mofongo, sancocho y un ambiente espectacular en Sants-Badal.',
-                    address: 'Carrer De Carreras I Candi, 08028, Barcelona',
-                    city: 'Barcelona',
-                    phone: '932 77 74 37',
-                    whatsapp: '932777437',
-                    images: ['https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=800&auto=format&fit=crop'],
-                    is_premium: true,
-                    is_approved: true,
-                    is_featured: true,
-                    views: 3150,
-                    clicks: 840,
-                    rating_avg: 4.5,
-                    rating_count: 120,
-                    created_at: new Date().toISOString()
-                }
-            ];
-
-            try {
-                const { data } = await supabase
-                    .from('dd_businesses')
-                    .select('*')
-                    .eq('is_featured', true)
-                    .eq('is_approved', true)
-                    .limit(3);
-
-                if (data && data.length > 0) setFeaturedBusinesses(data);
-                else setFeaturedBusinesses(mockFeatured);
-            } catch (e) {
-                setFeaturedBusinesses(mockFeatured);
-            }
-        };
-        fetchFeatured();
-    }, []);
 
     return (
         <div className="w-full bg-white text-slate-900 font-sans">
