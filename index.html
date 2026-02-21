@@ -8,7 +8,10 @@
   <title>Directorio Dominicano BCN</title>
   <script>
     window.onerror = function (msg, url, lineNo, columnNo, error) {
-      alert("Error Detectado: " + msg + "\\nConsulta la consola (F12) para más detalles.");
+      const display = document.createElement('div');
+      display.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:white;color:red;padding:20px;z-index:99999;font-family:monospace;overflow:auto;';
+      display.innerHTML = '<h1>❌ ERROR ENCONTRADO</h1><p>' + msg + '</p><p>Archivo: ' + url + '</p><p>Línea: ' + lineNo + '</p><pre>' + (error ? error.stack : '') + '</pre>';
+      document.body.appendChild(display);
       return false;
     };
   </script>
