@@ -10,6 +10,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
+import ScrollToTop from './components/ScrollToTop';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 
 const PAYPAL_CLIENT_ID = (import.meta.env.VITE_PAYPAL_CLIENT_ID || "sb").replace(/\s/g, "");
@@ -20,6 +21,7 @@ function App() {
     <PayPalScriptProvider options={{ clientId: PAYPAL_CLIENT_ID, currency: "EUR", intent: "subscription" }}>
       <AuthProvider>
         <Router>
+          <ScrollToTop />
           <div className="flex flex-col min-h-screen">
             <Navbar />
             <main className="flex-grow">
@@ -78,11 +80,19 @@ function App() {
                   </div>
 
                   <div>
-                    <h4 className="font-black uppercase tracking-widest text-xs text-dr-gold mb-6">Legal y Contacto</h4>
+                    <h4 className="font-black uppercase tracking-widest text-xs text-dr-gold mb-6">Legal y Soporte</h4>
                     <ul className="space-y-4">
                       <li><Link to="/terminos" className="text-white/60 hover:text-white transition-colors font-medium">Términos de Uso</Link></li>
                       <li><Link to="/privacidad" className="text-white/60 hover:text-white transition-colors font-medium">Privacidad</Link></li>
-                      <li><a href="mailto:nhemesysgonzalez@gmail.com" className="text-white/60 hover:text-white transition-colors font-medium">Soporte Técnico</a></li>
+                      <li>
+                        <a
+                          href="mailto:nhemesysgonzalez@gmail.com"
+                          className="group/support flex flex-col gap-1"
+                        >
+                          <span className="text-white/60 group-hover/support:text-white transition-colors font-medium">Soporte Técnico</span>
+                          <span className="text-[10px] font-black text-dr-red uppercase tracking-widest opacity-80 group-hover/support:opacity-100">nhemesysgonzalez@gmail.com</span>
+                        </a>
+                      </li>
                     </ul>
                   </div>
                 </div>
