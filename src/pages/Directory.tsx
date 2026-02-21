@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import { Search, MapPin, Filter, Star, Crown, ChevronRight, Grid, Map as MapIcon, X } from 'lucide-react';
+import { Search, MapPin, Filter, Star, Crown, ChevronRight, Grid, Map as MapIcon } from 'lucide-react';
 import { CATEGORIES, CITIES, type Business } from '../types';
 import { supabase } from '../lib/supabase';
-import AdBanner from '../components/AdBanner';
 import { motion, AnimatePresence } from 'framer-motion';
 
 
