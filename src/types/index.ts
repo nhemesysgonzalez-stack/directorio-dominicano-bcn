@@ -42,6 +42,12 @@ export interface Business {
     rating_avg?: number;
     rating_count?: number;
     created_at: string;
+
+    // Synergy Fields
+    synergy_desires?: string[]; // categories they want to work with (e.g., ["Colmados", "Restaurantes"])
+    synergy_partners?: string[]; // Names of active partners
+    synergy_status?: string; // e.g., "Abierto a colaboraciones", "Buscando alianzas"
+    synergy_description?: string; // Short text about what they offer for synergy
 }
 
 export interface Review {

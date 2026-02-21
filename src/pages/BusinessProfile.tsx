@@ -297,33 +297,69 @@ const BusinessProfile: React.FC = () => {
 
                     {/* Sidebar Actions */}
                     <div className="space-y-8">
-                        {/* Sinergy Card - The Core Idea */}
-                        {business.is_premium && (
-                            <div className="card p-8 bg-dr-blue text-white overflow-hidden relative shadow-2xl shadow-dr-blue/30 scale-105">
-                                <div className="absolute top-0 right-0 p-3">
-                                    <TrendingUp className="text-dr-gold/30" size={80} />
-                                </div>
-                                <h3 className="text-xl font-black mb-4 uppercase tracking-tight flex items-center gap-2">
-                                    <Zap className="text-dr-gold" /> Alianzas de Éxito
-                                </h3>
-                                <p className="text-sm font-bold opacity-80 mb-6 leading-relaxed">
-                                    Este establecimiento es un <strong>Miembro Protector</strong>. Está abierto a crear sinergias con otros comercios dominicanos:
-                                </p>
-                                <div className="space-y-3">
-                                    <div className="p-4 bg-white/10 rounded-2xl border border-white/10 flex items-center gap-3">
-                                        <div className="size-2 bg-dr-gold rounded-full"></div>
-                                        <span className="text-xs font-black uppercase tracking-widest">Descuentos B2B Activos</span>
-                                    </div>
-                                    <div className="p-4 bg-white/10 rounded-2xl border border-white/10 flex items-center gap-3">
-                                        <div className="size-2 bg-dr-gold rounded-full"></div>
-                                        <span className="text-xs font-black uppercase tracking-widest">Eventos Conjuntos</span>
-                                    </div>
-                                </div>
-                                <button className="btn btn-gold btn-sm w-full mt-6 font-black uppercase tracking-widest">
-                                    Proponer Sinergia
-                                </button>
+                        {/* Sinergy Card - The Core Bridge Feature */}
+                        <div className="card p-8 bg-[#002B5B] text-white overflow-hidden relative shadow-2xl shadow-blue-900/40 border border-white/5">
+                            <div className="absolute top-0 right-0 p-3 opacity-10">
+                                <TrendingUp size={120} />
                             </div>
-                        )}
+
+                            <div className="relative z-10">
+                                <div className="flex items-center gap-3 mb-6">
+                                    <div className="size-12 rounded-2xl bg-white/10 flex items-center justify-center text-[#EAB308]">
+                                        <Zap size={24} fill="currentColor" />
+                                    </div>
+                                    <h3 className="text-2xl font-black uppercase tracking-tighter">RED DE SINERGIAS</h3>
+                                </div>
+
+                                <div className="space-y-8">
+                                    {/* WANT SYNERGY WITH */}
+                                    <div>
+                                        <h4 className="text-[10px] font-black uppercase tracking-widest text-[#EAB308] mb-4">QUIERO SINERGIAS CON:</h4>
+                                        <div className="flex flex-wrap gap-2">
+                                            {(business.synergy_desires || ['Colmados', 'Restaurantes', 'Catering', 'DJ/Eventos']).map(cat => (
+                                                <span key={cat} className="px-3 py-1.5 bg-white/5 border border-white/10 rounded-full text-[10px] font-black uppercase tracking-widest text-white/80">
+                                                    {cat}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* CURRENT PARTNERS */}
+                                    <div>
+                                        <h4 className="text-[10px] font-black uppercase tracking-widest text-blue-400 mb-4">SINERGIAS ACTIVAS ✅</h4>
+                                        <div className="space-y-3">
+                                            {(business.synergy_partners || ['Colmado Carlos', 'Sabor Latino BCN']).map(partner => (
+                                                <div key={partner} className="flex items-center gap-3 p-3 bg-white/5 rounded-2xl border border-white/10">
+                                                    <div className="size-2 bg-green-400 rounded-full shadow-[0_0_10px_rgba(74,222,128,0.5)]"></div>
+                                                    <span className="text-xs font-bold">{partner}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* REAL EXAMPLE */}
+                                    <div className="p-6 bg-white/5 rounded-3xl border border-dashed border-white/20">
+                                        <h4 className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-3 italic">EJEMPLO DE ÉXITO:</h4>
+                                        <p className="text-xs font-medium leading-relaxed italic text-white/70">
+                                            {business.synergy_description || `"Compartimos excedente de materias primas con restaurantes cercanos para reducir mermas y asegurar frescura diaria."`}
+                                        </p>
+                                    </div>
+
+                                    {/* THE BRIDGE BUTTON */}
+                                    <div className="pt-4">
+                                        <a
+                                            href={`mailto:${business.email || 'info@directorio.com'}?subject=Sinergia con ${business.name}`}
+                                            className="w-full flex items-center justify-center gap-3 py-5 bg-[#EAB308] hover:bg-white text-[#002B5B] font-black text-xs uppercase tracking-[0.2em] rounded-2xl shadow-xl transition-all"
+                                        >
+                                            <TrendingUp size={18} /> MATERIALIZAR SINERGIA
+                                        </a>
+                                        <p className="text-center text-[9px] font-bold text-white/30 mt-4 uppercase tracking-widest">
+                                            Somos el puente entre tu negocio y el progreso
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         {/* Contact Card */}
                         <div className="card p-8 bg-dr-blue text-white sticky top-32">

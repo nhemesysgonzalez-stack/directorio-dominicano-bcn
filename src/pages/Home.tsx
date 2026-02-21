@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, MapPin, Star, Crown, ChevronRight, TrendingUp, Users, Award } from 'lucide-react';
+import { Search, MapPin, Star, Crown, TrendingUp, Users, ShieldCheck, Award } from 'lucide-react';
 import { CATEGORIES, type Business } from '../types';
 import { supabase } from '../lib/supabase';
-import AdBanner from '../components/AdBanner';
+import { motion } from 'framer-motion';
 
 const Home: React.FC = () => {
-
     const [searchTerm, setSearchTerm] = useState('');
     const [featuredBusinesses, setFeaturedBusinesses] = useState<Business[]>([]);
-
-    // Filter premium businesses for the rotating showcase
-    const premiumBusinesses = featuredBusinesses.filter(b => b.is_premium);
 
     useEffect(() => {
         const fetchFeatured = async () => {
@@ -36,48 +32,6 @@ const Home: React.FC = () => {
                     rating_avg: 4.5,
                     rating_count: 120,
                     created_at: new Date().toISOString()
-                },
-                {
-                    id: '2',
-                    owner_id: 'real_owner_2',
-                    name: 'Peluquería Jossi',
-                    slug: 'peluqueria-estetica-jossi',
-                    category: 'Belleza',
-                    description: 'Especialistas en cabello latino, uñas y estética en Sagrada Familia.',
-                    address: 'Carrer de Lepant, 226, Barcelona',
-                    city: 'Barcelona',
-                    phone: '931 72 80 15',
-                    whatsapp: '34666295201',
-                    images: ['https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=800&auto=format&fit=crop'],
-                    is_premium: true,
-                    is_approved: true,
-                    is_featured: true,
-                    views: 1890,
-                    clicks: 520,
-                    rating_avg: 4.7,
-                    rating_count: 85,
-                    created_at: new Date().toISOString()
-                },
-                {
-                    id: '3',
-                    owner_id: 'real_owner_3',
-                    name: 'Sabor Criollo',
-                    slug: 'bar-restaurante-sabor-criollo',
-                    category: 'Restaurantes',
-                    description: 'Fusión auténtica de sabores dominicanos y mediterráneos en Nou Barris.',
-                    address: 'Pg. de Fabra i Puig, 177, Barcelona',
-                    city: 'Barcelona',
-                    phone: '931 96 18 24',
-                    whatsapp: '34931961824',
-                    images: ['https://images.unsplash.com/photo-1514361892635-6b07e31e75f9?q=80&w=800&auto=format&fit=crop'],
-                    is_premium: true,
-                    is_approved: true,
-                    is_featured: true,
-                    views: 2420,
-                    clicks: 410,
-                    rating_avg: 4.6,
-                    rating_count: 92,
-                    created_at: new Date().toISOString()
                 }
             ];
 
@@ -99,236 +53,226 @@ const Home: React.FC = () => {
         fetchFeatured();
     }, []);
 
-    useEffect(() => {
-        if (premiumBusinesses.length <= 1) return;
-        const interval = setInterval(() => {
-            // Logic for rotation if needed, currently using activeFeaturedIndex which was unused
-        }, 60000);
-        return () => clearInterval(interval);
-    }, [premiumBusinesses.length]);
-
     return (
-        <div className="flex flex-col">
-            {/* Hero Section - Clean & Direct */}
-            <section className="hero-gradient py-24 md:py-32 relative text-white overflow-hidden">
-                <div className="container mx-auto px-4 relative z-10">
-                    <div className="max-w-4xl mx-auto text-center animate-in">
-                        <h1 className="section-title text-white mb-4 text-shadow-lg leading-tight uppercase tracking-tighter">
-                            Directorio Dominicano <span className="text-dr-red">Barcelona</span>
+        <div className="flex flex-col bg-white">
+            {/* ── NEW HERO SECTION (Screenshot 2 Style) ── */}
+            <section className="relative pt-32 pb-24 overflow-hidden border-b border-gray-100">
+                <div className="absolute top-0 left-0 w-full h-[350px] z-0 opacity-40">
+                    <img
+                        src="https://images.unsplash.com/photo-1583526017992-66fd368d374f?q=80&w=1600&auto=format&fit=crop"
+                        className="w-full h-full object-cover mask-gradient-to-b"
+                        alt="Barcelona Skyline"
+                    />
+                </div>
+
+                <div className="container relative z-10 text-center px-4">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                    >
+                        <h1 className="text-4xl md:text-6xl font-black text-[#002B5B] mb-4 uppercase tracking-tighter">
+                            DIRECTORIO DOMINICANO BARCELONA
                         </h1>
-                        <p className="text-lg md:text-xl font-medium opacity-90 mb-10 max-w-2xl mx-auto">
+                        <p className="text-lg md:text-xl text-gray-500 font-bold mb-12">
                             Encuentra los mejores restaurantes, servicios y negocios locales de nuestra comunidad. ¡Siéntete como en casa!
                         </p>
+                    </motion.div>
 
-                        {/* Quick Info Bar - Horizontal & Discrete */}
-                        <div className="flex flex-wrap justify-center gap-4 md:gap-8 mb-12">
-                            <div className="flex flex-col items-center gap-1">
-                                <div className="flex items-center gap-2 bg-white/5 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
-                                    <Users size={16} className="text-dr-gold" />
-                                    <span className="text-xs font-black uppercase tracking-widest">Unión Comunitaria</span>
-                                </div>
-                            </div>
-                            <div className="flex flex-col items-center gap-1">
-                                <div className="flex items-center gap-2 bg-white/5 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
-                                    <TrendingUp size={16} className="text-dr-gold" />
-                                    <span className="text-xs font-black uppercase tracking-widest">Crecimiento Local</span>
-                                </div>
-                            </div>
-                            <div className="flex flex-col items-center gap-1">
-                                <div className="flex items-center gap-2 bg-white/5 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
-                                    <Award size={16} className="text-dr-gold" />
-                                    <span className="text-xs font-black uppercase tracking-widest">Confianza Digital</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Search Box */}
-                        <div className="bg-white/10 backdrop-blur-xl p-2 rounded-3xl border border-white/20 shadow-2xl flex flex-col md:flex-row gap-2 max-w-2xl mx-auto">
-                            <div className="flex-1 flex items-center gap-3 px-4 py-3 text-white">
-                                <Search size={22} className="text-white/60" />
+                    {/* Clean Search Bar */}
+                    <div className="max-w-4xl mx-auto mb-16 px-4">
+                        <div className="flex flex-col md:flex-row items-center bg-white rounded-[40px] shadow-2xl overflow-hidden p-2 border border-gray-100">
+                            <div className="flex-1 flex items-center px-6 py-4 gap-4 w-full">
+                                <Search className="text-gray-300 shrink-0" size={24} />
                                 <input
                                     type="text"
-                                    placeholder="¿Qué buscas? (ex: Pica Pollo, Peluquería...)"
-                                    className="bg-transparent border-none outline-none w-full text-lg placeholder:text-white/50"
+                                    placeholder="¿Qué buscas? (ej: Pica Pollo, Peluquería...)"
+                                    className="w-full bg-transparent border-none focus:ring-0 text-xl font-bold placeholder:text-gray-300"
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                 />
                             </div>
-                            <div className="hidden md:block w-px bg-white/20 h-10 my-auto"></div>
-                            <div className="flex items-center gap-2 px-4 py-3 text-white">
-                                <MapPin size={22} className="text-white/60" />
-                                <span className="font-bold">Barcelona</span>
+                            <div className="hidden md:flex h-10 w-[1px] bg-gray-100"></div>
+                            <div className="hidden md:flex items-center px-6 py-4 gap-2 text-gray-400 font-bold">
+                                <MapPin size={20} className="text-[#D31F3B]" />
+                                <span>Barcelona</span>
                             </div>
                             <Link
                                 to={`/directorio?search=${searchTerm}`}
-                                className="btn btn-red btn-lg shadow-xl"
+                                className="w-full md:w-auto px-12 py-5 bg-[#D31F3B] hover:bg-[#B31932] text-white font-black text-xl uppercase tracking-widest rounded-[32px] transition-all text-center"
                             >
                                 Buscar
                             </Link>
                         </div>
-
-                        {/* Stats - Small & Clean */}
-                        <div className="flex justify-center gap-8 mt-12 text-white/60 text-[10px] font-black uppercase tracking-[0.2em]">
-                            <div className="flex items-center gap-2">
-                                <span className="text-white">150+</span> Negocios
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <span className="text-white">2k+</span> Usuarios
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <span className="text-white">Calidad</span> Verificada
-                            </div>
-                        </div>
                     </div>
-                </div>
 
-                {/* Visual Background Elements */}
-                <div className="absolute top-0 right-0 w-80 h-80 bg-dr-red/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
-                <div className="absolute bottom-0 left-0 w-80 h-80 bg-dr-blue/10 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2"></div>
-            </section>
-
-            {/* About / Info Section - Replaces the huge Header box */}
-            <section className="py-20 bg-gray-50">
-                <div className="container mx-auto px-4">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-                        <div className="bg-white p-8 rounded-[40px] shadow-sm border border-gray-100">
-                            <h3 className="text-dr-blue font-black uppercase text-xs tracking-[0.2em] mb-4">¿Por qué este Directorio?</h3>
-                            <p className="text-sm text-gray-500 font-medium leading-relaxed">
-                                Nace de la necesidad de <strong>centralizar nuestra fuerza comercial</strong> en Barcelona. Es la herramienta para que ningún dominicano se sienta perdido y sepa dónde encontrar su sazón, su estilo y su gente.
-                            </p>
+                    {/* Info Badges */}
+                    <div className="flex flex-wrap justify-center gap-8 md:gap-16">
+                        <div className="flex items-center gap-3">
+                            <div className="size-10 rounded-full bg-[#002B5B]/5 flex items-center justify-center text-[#002B5B]">
+                                <Users size={18} />
+                            </div>
+                            <span className="text-[11px] font-black uppercase tracking-[0.2em] text-[#002B5B]">UNIÓN COMUNITARIA</span>
                         </div>
-                        <div className="bg-white p-8 rounded-[40px] shadow-sm border border-gray-100">
-                            <h3 className="text-dr-red font-black uppercase text-xs tracking-[0.2em] mb-4">Utilidad e Importancia</h3>
-                            <p className="text-sm text-gray-500 font-medium leading-relaxed">
-                                No es solo una lista de teléfonos; es un <strong>motor de búsqueda especializado</strong> que valida la calidad de los servicios, facilitando la vida diaria del residente y del recién llegado.
-                            </p>
+                        <div className="flex items-center gap-3">
+                            <div className="size-10 rounded-full bg-[#EAB308]/5 flex items-center justify-center text-[#EAB308]">
+                                <TrendingUp size={18} />
+                            </div>
+                            <span className="text-[11px] font-black uppercase tracking-[0.2em] text-[#002B5B]">CRECIMIENTO LOCAL</span>
                         </div>
-                        <div className="bg-white p-8 rounded-[40px] shadow-sm border border-gray-100">
-                            <h3 className="text-dr-gold font-black uppercase text-xs tracking-[0.2em] mb-4">Beneficios Directos</h3>
-                            <p className="text-sm text-gray-500 font-medium leading-relaxed">
-                                Para el usuario, <strong>seguridad y rapidez</strong>. Para el dueño de negocio, una <strong>vitrina premium</strong> que lo conecta con clientes que ya están buscando lo que él ofrece.
-                            </p>
+                        <div className="flex items-center gap-3">
+                            <div className="size-10 rounded-full bg-[#D31F3B]/5 flex items-center justify-center text-[#D31F3B]">
+                                <ShieldCheck size={18} />
+                            </div>
+                            <span className="text-[11px] font-black uppercase tracking-[0.2em] text-[#002B5B]">CONFIANZA DIGITAL</span>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* Synergies Section */}
-            <section className="py-24 bg-white relative overflow-hidden">
-                <div className="container mx-auto px-4 relative z-10">
-                    <div className="max-w-4xl mx-auto text-center mb-16">
-                        <span className="badge badge-blue mb-4 uppercase tracking-widest font-black">Red de Sinergias</span>
-                        <h2 className="section-title mb-6">Más que un Directorio, una Comunidad</h2>
-                        <p className="section-subtitle">Fomentamos la colaboración entre emprendedores dominicanos para que todos ganemos.</p>
-                    </div>
+            {/* ── MISSION SECTION (Screenshot 2 Content) ── */}
+            <section className="py-24 bg-white">
+                <div className="container max-w-5xl px-4">
+                    <div className="space-y-12">
+                        <div className="flex flex-col md:flex-row gap-6 items-start">
+                            <div className="min-w-[300px]">
+                                <h3 className="text-xl font-black text-[#002B5B] uppercase tracking-wider mb-2">¿POR QUÉ ESTE DIRECTORIO?</h3>
+                            </div>
+                            <p className="text-lg font-bold text-gray-600 leading-relaxed">
+                                Nace de la necesidad de <span className="text-black font-black underline decoration-[#D31F3B]/30 underline-offset-4">centralizar nuestra fuerza comercial</span> en Barcelona. Es la herramienta para que ningún dominicano se sienta perdido y sepa dónde encontrar su sazón, su estilo y su gente.
+                            </p>
+                        </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
-                        <div className="card p-8 bg-surface-2 border-none hover:translate-y-[-8px] transition-all">
-                            <div className="size-14 rounded-2xl bg-white flex items-center justify-center text-dr-blue shadow-sm mb-6 mx-auto md:mx-0">
-                                <TrendingUp size={28} />
+                        <div className="flex flex-col md:flex-row gap-6 items-start border-t border-gray-50 pt-12">
+                            <div className="min-w-[300px]">
+                                <h3 className="text-xl font-black text-[#002B5B] uppercase tracking-wider mb-2">UTILIDAD E IMPORTANCIA</h3>
                             </div>
-                            <h3 className="text-lg font-black mb-4 uppercase tracking-tight">Proveedores de Casa</h3>
-                            <p className="text-xs text-gray-500 font-medium leading-relaxed">
-                                <strong>Ejemplo Real:</strong> Una frutería dominicana con plátanos frescos puede ceder productos a un restaurante dominicano a precios preferenciales. El restaurante ahorra y la frutería gana un cliente fijo para siempre.
+                            <p className="text-lg font-bold text-gray-600 leading-relaxed">
+                                No es solo una lista de teléfonos; es un <span className="text-black font-black">motor de búsqueda especializado</span> que valida la calidad de los servicios, facilitando la vida diaria del residente y del recién llegado.
                             </p>
                         </div>
-                        <div className="card p-8 bg-surface-2 border-none hover:translate-y-[-8px] transition-all">
-                            <div className="size-14 rounded-2xl bg-white flex items-center justify-center text-dr-red shadow-sm mb-6 mx-auto md:mx-0">
-                                <Users size={28} />
+
+                        <div className="flex flex-col md:flex-row gap-6 items-start border-t border-gray-50 pt-12">
+                            <div className="min-w-[300px]">
+                                <h3 className="text-xl font-black text-[#002B5B] uppercase tracking-wider mb-2">BENEFICIOS DIRECTOS</h3>
                             </div>
-                            <h3 className="text-lg font-black mb-4 uppercase tracking-tight">Referidos entre Negocios</h3>
-                            <p className="text-xs text-gray-500 font-medium leading-relaxed">
-                                Una peluquería puede recomendar a sus clientes el colmado de al lado para sus compras, creando un <strong>flujo constante de clientes</strong> que se quedan dentro de nuestra propia economía comunitaria.
-                            </p>
-                        </div>
-                        <div className="card p-8 bg-surface-2 border-none hover:translate-y-[-8px] transition-all">
-                            <div className="size-14 rounded-2xl bg-white flex items-center justify-center text-dr-gold shadow-sm mb-6 mx-auto md:mx-0">
-                                <Award size={28} />
-                            </div>
-                            <h3 className="text-lg font-black mb-4 uppercase tracking-tight">Alianzas de Eventos</h3>
-                            <p className="text-xs text-gray-500 font-medium leading-relaxed">
-                                Cuando un DJ dominicano trabaja con un servicio de catering de la tierra para un evento, el beneficio se multiplica. Juntos ofrecen un <strong>paquete premium</strong> irresistible para el cliente final.
+                            <p className="text-lg font-bold text-gray-600 leading-relaxed">
+                                Para el usuario, <span className="text-black font-black">seguridad y rapidez</span>. Para el dueño de negocio, una <span className="text-black font-black">vitrina premium</span> que lo conecta con clientes que ya están buscando lo que él ofrece.
                             </p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* Categories Section */}
-            <section className="py-20 bg-white">
-                <div className="container mx-auto px-4">
-                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-                        <div>
-                            <h2 className="section-title mb-4">Explora por Categoría</h2>
-                            <p className="section-subtitle">Lo que necesites, de nuestra gente para nuestra gente.</p>
-                        </div>
-                        <Link to="/directorio" className="btn btn-ghost group">
-                            Ver todo <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                        </Link>
+            {/* ── SYNERGIES SECTION (The Core Update) ── */}
+            <section className="py-24 bg-[#F8FAFC]">
+                <div className="container px-4">
+                    <div className="text-center mb-16">
+                        <span className="inline-block px-4 py-1.5 rounded-full bg-[#002B5B]/10 text-[#002B5B] text-[10px] font-black uppercase tracking-widest mb-6">RED DE SINERGIAS</span>
+                        <h2 className="text-5xl md:text-7xl font-black text-[#002B5B] mb-6 tracking-tighter">Más que un Directorio, una Comunidad</h2>
+                        <p className="text-xl text-gray-400 font-bold max-w-2xl mx-auto">
+                            Fomentamos la colaboración real entre emprendedores dominicanos para que todos ganemos.
+                        </p>
                     </div>
 
-                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                        {CATEGORIES.slice(0, 11).map((cat) => (
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        {/* CARD 1 */}
+                        <div className="bg-white p-10 rounded-[40px] shadow-sm hover:shadow-2xl transition-all border border-gray-100 flex flex-col items-center text-center group">
+                            <div className="size-16 rounded-3xl bg-blue-50 flex items-center justify-center text-blue-600 mb-8 group-hover:scale-110 transition-transform">
+                                <TrendingUp size={32} />
+                            </div>
+                            <h4 className="text-2xl font-black text-[#002B5B] mb-4 uppercase">PROVEEDORES DE CASA</h4>
+                            <p className="text-gray-500 font-bold leading-relaxed">
+                                <span className="text-black font-black underline decoration-blue-500/20">Ejemplo Real:</span> Una frutería dominicana con plátanos frescos puede ceder productos a un restaurante dominicano a precios preferenciales. El restaurante ahorra y la frutería gana un cliente fijo para siempre.
+                            </p>
+                        </div>
+
+                        {/* CARD 2 */}
+                        <div className="bg-white p-10 rounded-[40px] shadow-sm hover:shadow-2xl transition-all border border-gray-100 flex flex-col items-center text-center group">
+                            <div className="size-16 rounded-3xl bg-orange-50 flex items-center justify-center text-orange-600 mb-8 group-hover:scale-110 transition-transform">
+                                <Users size={32} />
+                            </div>
+                            <h4 className="text-2xl font-black text-[#002B5B] mb-4 uppercase tracking-tighter">REFERIDOS ENTRE NEGOCIOS</h4>
+                            <p className="text-gray-500 font-bold leading-relaxed">
+                                Una peluquería puede recomendar a sus clientes el colmado de al lado para sus compras, creando un <span className="text-black font-black underline decoration-orange-500/20">flujo constante de clientes</span> que se quedan dentro de nuestra propia economía comunitaria.
+                            </p>
+                        </div>
+
+                        {/* CARD 3 */}
+                        <div className="bg-white p-10 rounded-[40px] shadow-sm hover:shadow-2xl transition-all border border-gray-100 flex flex-col items-center text-center group">
+                            <div className="size-16 rounded-3xl bg-indigo-50 flex items-center justify-center text-indigo-600 mb-8 group-hover:scale-110 transition-transform">
+                                <Award size={32} />
+                            </div>
+                            <h4 className="text-2xl font-black text-[#002B5B] mb-4 uppercase">ALIANZAS DE EVENTOS</h4>
+                            <p className="text-gray-500 font-bold leading-relaxed">
+                                Cuando un DJ dominicano trabaja con un servicio de catering de la tierra para un evento, el beneficio se multiplica. Juntos ofrecen un <span className="text-black font-black underline decoration-indigo-500/20">paquete premium irresistible</span> para el cliente final.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* ── CATEGORIES ── */}
+            <section className="py-24 bg-white border-t border-gray-50">
+                <div className="container px-4">
+                    <div className="mb-16">
+                        <h2 className="text-5xl font-black text-[#002B5B] mb-4 tracking-tighter">Explora por Categoría</h2>
+                        <p className="text-xl text-gray-400 font-bold">Lo que necesites, de nuestra gente para nuestra gente.</p>
+                    </div>
+
+                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                        {CATEGORIES.map(cat => (
                             <Link
                                 key={cat.id}
                                 to={`/directorio?category=${cat.slug}`}
-                                className="flex flex-col items-center gap-4 p-8 rounded-3xl border border-gray-100 hover:border-dr-blue hover:shadow-xl transition-all group animate-in"
+                                className="group flex flex-col items-center gap-4 p-8 rounded-[32px] hover:bg-gray-50 transition-all border border-transparent hover:border-gray-100 text-center"
                             >
-                                <div
-                                    className="size-16 rounded-2xl flex items-center justify-center text-3xl group-hover:scale-110 transition-transform shadow-sm"
-                                    style={{ backgroundColor: `${cat.color}10`, color: cat.color }}
-                                >
-                                    {cat.icon}
-                                </div>
-                                <span className="font-bold text-sm text-gray-700">{cat.name}</span>
+                                <div className="text-4xl group-hover:scale-110 transition-transform">{cat.icon}</div>
+                                <span className="font-black text-[10px] uppercase tracking-widest text-[#002B5B]">{cat.name}</span>
                             </Link>
                         ))}
-                        <Link
-                            to="/directorio"
-                            className="flex flex-col items-center justify-center gap-4 p-8 rounded-3xl border-2 border-dashed border-gray-200 hover:border-dr-blue transition-all group"
-                        >
-                            <div className="size-16 rounded-2xl flex items-center justify-center text-gray-400 group-hover:text-dr-blue">
-                                <Search size={32} />
-                            </div>
-                            <span className="font-bold text-sm text-gray-500">Más...</span>
-                        </Link>
                     </div>
                 </div>
             </section>
 
-            {/* Premium Showcase */}
-            <section className="py-24 bg-dr-blue relative overflow-hidden">
-                <div className="container mx-auto px-4 relative z-10">
-                    <div className="flex flex-col md:flex-row items-center justify-between gap-10 mb-16">
-                        <div className="text-white text-center md:text-left">
-                            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-4 leading-none">Showcase <span className="text-dr-gold">Gold</span></h2>
-                            <p className="text-white/70 font-medium max-w-lg">Nuestros negocios premium rotan constantemente para darte la máxima visibilidad.</p>
+            {/* ── PREMIUM SHOWCASE ── */}
+            <section className="py-24 bg-white">
+                <div className="container px-4">
+                    <div className="flex flex-col md:flex-row items-end justify-between gap-10 mb-20">
+                        <div>
+                            <span className="inline-block px-4 py-1.5 rounded-full bg-[#EAB308]/10 text-[#EAB308] text-[10px] font-black uppercase tracking-widest mb-6 border border-[#EAB308]/20">MIEMBROS DESTACADOS</span>
+                            <h2 className="text-5xl font-black text-[#002B5B] mb-4 tracking-tighter">Negocios Gold Member</h2>
+                            <p className="text-xl text-gray-400 font-bold">Calidad premium y compromiso con la comunidad.</p>
                         </div>
+                        <Link to="/directorio" className="btn btn-outline border-2 px-10 py-4 text-[#002B5B] font-black uppercase tracking-widest text-xs rounded-2xl border-[#002B5B]/10 hover:border-[#002B5B]">Ver todos los negocios</Link>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {featuredBusinesses.map((biz, idx) => (
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        {featuredBusinesses.map((biz) => (
                             <Link
                                 key={biz.id}
                                 to={`/negocio/${biz.slug}`}
-                                className={`card group overflow-hidden border-none transform transition-all duration-700 hover:scale-[1.02] ${idx === 1 ? 'lg:translate-y-12' : ''}`}
+                                className="group bg-white rounded-[40px] overflow-hidden shadow-sm hover:shadow-2xl transition-all border border-gray-100"
                             >
-                                <div className="relative aspect-[4/5]">
-                                    <img src={biz.images[0]} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-                                    <div className="absolute top-6 left-6 flex flex-col gap-2">
-                                        <span className="badge badge-premium px-3 py-1 text-[10px] w-fit">Premium Gold</span>
-                                        <div className="size-12 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/20">
-                                            <Crown size={20} />
+                                <div className="aspect-[4/3] overflow-hidden relative">
+                                    <img src={biz.images[0]} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={biz.name} />
+                                    <div className="absolute top-6 left-6">
+                                        <div className="px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full flex items-center gap-2 text-[#002B5B] shadow-lg">
+                                            <Crown size={14} className="text-[#EAB308]" />
+                                            <span className="text-[10px] font-black uppercase tracking-widest">Premium Gold</span>
                                         </div>
                                     </div>
-                                    <div className="absolute bottom-6 left-6 right-6 text-white text-left">
-                                        <div className="flex items-center gap-1 text-dr-gold mb-2">
-                                            <Star size={12} fill="currentColor" />
-                                            <span className="text-xs font-black uppercase tracking-widest">{biz.rating_avg} Rating</span>
-                                        </div>
-                                        <h3 className="text-2xl font-black uppercase leading-none mb-2">{biz.name}</h3>
-                                        <p className="text-white/60 text-xs line-clamp-2 font-medium">{biz.description}</p>
+                                </div>
+                                <div className="p-8">
+                                    <div className="flex items-center gap-2 mb-4">
+                                        <Star size={16} fill="#EAB308" className="text-[#EAB308]" />
+                                        <span className="text-xs font-black uppercase tracking-widest text-[#EAB308]">Sabor Dominicano Superior</span>
+                                    </div>
+                                    <h3 className="text-3xl font-black text-[#002B5B] uppercase leading-tight mb-4 group-hover:text-[#D31F3B] transition-colors">{biz.name}</h3>
+                                    <p className="text-gray-500 font-bold line-clamp-2 mb-8 leading-relaxed font-medium">{biz.description}</p>
+                                    <div className="flex items-center gap-2 text-gray-400">
+                                        <MapPin size={16} className="text-[#D31F3B]" />
+                                        <span className="text-[10px] font-black uppercase tracking-widest leading-none">{biz.address}</span>
                                     </div>
                                 </div>
                             </Link>
@@ -337,15 +281,22 @@ const Home: React.FC = () => {
                 </div>
             </section>
 
-            {/* Ad Banner - Lower */}
-            <div className="container mx-auto px-4 py-8">
-                <AdBanner
-                    type="horizontal"
-                    imageUrl="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=1200&auto=format&fit=crop"
-                    linkUrl="/registro"
-                    label="Anúnciate con nosotros"
-                />
-            </div>
+            {/* ── FOOTER CTA ── */}
+            <section className="py-24">
+                <div className="container px-4">
+                    <div className="bg-[#002B5B] rounded-[50px] p-16 md:p-24 text-center relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-80 h-80 bg-blue-500/20 rounded-full blur-[100px]"></div>
+                        <h2 className="text-4xl md:text-7xl font-black text-white mb-8 uppercase tracking-tighter max-w-3xl mx-auto leading-none">
+                            ¿Tienes un negocio? Únete a nosotros
+                        </h2>
+                        <p className="text-xl text-white/60 font-bold mb-12 uppercase tracking-widest">Impulsa tu comercio y genera sinergias reales</p>
+                        <div className="flex flex-col sm:flex-row gap-6 justify-center">
+                            <Link to="/registro" className="px-12 py-5 bg-[#D31F3B] text-white font-black text-xl uppercase tracking-widest rounded-3xl hover:bg-white hover:text-[#002B5B] transition-all">REGISTRAR MI NEGOCIO</Link>
+                            <Link to="/planes" className="px-12 py-5 border-2 border-white text-white font-black text-xl uppercase tracking-widest rounded-3xl hover:bg-white hover:text-[#002B5B] transition-all">VER PLANES PREMIUM</Link>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
     );
 };

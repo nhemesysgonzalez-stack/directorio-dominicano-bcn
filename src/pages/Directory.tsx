@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import { Search, MapPin, Filter, Star, Crown, ChevronRight, Grid, Map as MapIcon } from 'lucide-react';
+import { Search, MapPin, Filter, Star, Crown, ChevronRight, Grid, Map as MapIcon, X } from 'lucide-react';
 import { CATEGORIES, CITIES, type Business } from '../types';
 import { supabase } from '../lib/supabase';
 import AdBanner from '../components/AdBanner';
+import { motion, AnimatePresence } from 'framer-motion';
 
 
 const Directory: React.FC = () => {
@@ -24,7 +25,6 @@ const Directory: React.FC = () => {
 
     const fetchBusinesses = async () => {
         setLoading(true);
-        // Mock data for initial development
         const mockBusinesses: Business[] = [
             {
                 id: '1',
@@ -65,46 +65,6 @@ const Directory: React.FC = () => {
                 rating_avg: 4.5,
                 rating_count: 32,
                 created_at: new Date().toISOString()
-            },
-            {
-                id: '3',
-                owner_id: 'owner3',
-                name: 'Peluquería Estilo Dominicano',
-                slug: 'peluqueria-estilo-dominicano',
-                category: 'Belleza',
-                description: 'Especialistas en cortes dominicanos.',
-                address: 'Avinguda del Paral·lel, 120, Barcelona',
-                city: 'Barcelona',
-                phone: '933 44 55 66',
-                images: ['https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=800&auto=format&fit=crop'],
-                is_premium: true,
-                is_approved: true,
-                is_featured: false,
-                views: 740,
-                clicks: 180,
-                rating_avg: 4.9,
-                rating_count: 45,
-                created_at: new Date().toISOString()
-            },
-            {
-                id: '4',
-                owner_id: 'owner4',
-                name: 'Gestoría Dominicana Barna',
-                slug: 'gestoria-dominicana-barna',
-                category: 'Servicios Pro',
-                description: 'Trámites de extranjería y renovación de pasaportes.',
-                address: 'Gran Via de les Corts Catalanes, 600, Barcelona',
-                city: 'Barcelona',
-                phone: '932 11 22 33',
-                images: ['https://images.unsplash.com/photo-1454165833767-027ffea7028c?q=80&w=800&auto=format&fit=crop'],
-                is_premium: false,
-                is_approved: true,
-                is_featured: false,
-                views: 320,
-                clicks: 85,
-                rating_avg: 4.2,
-                rating_count: 12,
-                created_at: new Date().toISOString()
             }
         ];
 
@@ -116,14 +76,12 @@ const Directory: React.FC = () => {
 
             if (category) query = query.eq('category', category);
             if (city) query = query.eq('city', city);
-            // search logic would be more complex on Supabase (ilike or full-text)
 
             const { data } = await query.order('is_premium', { ascending: false });
 
             if (data && data.length > 0) {
                 setBusinesses(data);
             } else {
-                // Simple local filter for mock data
                 let filtered = [...mockBusinesses];
                 if (category) filtered = filtered.filter(b => b.category.toLowerCase() === category.toLowerCase());
                 if (search) filtered = filtered.filter(b => b.name.toLowerCase().includes(search.toLowerCase()) || b.description.toLowerCase().includes(search.toLowerCase()));
@@ -145,27 +103,29 @@ const Directory: React.FC = () => {
     };
 
     return (
-        <div className="bg-surface-2 min-h-screen pb-20">
-            {/* Search Bar Header */}
-            <div className="bg-white border-b border-gray-200 py-8 sticky top-20 z-10 shadow-sm">
-                <div className="container mx-auto px-4">
-                    <div className="flex flex-col md:flex-row gap-4 items-center">
-                        <div className="w-full md:flex-1 relative">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-                            <input
-                                type="text"
-                                placeholder="Buscar por nombre o servicio..."
-                                className="form-input pl-12 h-14 font-semibold text-lg"
-                                value={search}
-                                onChange={(e) => updateParam('search', e.target.value)}
-                            />
+        <div className="bg-dr-light min-h-screen pb-32">
+            {/* ── STICKY SEARCH HEADER ── */}
+            <div className="bg-white/80 backdrop-blur-xl border-b border-gray-100 pt-32 pb-8 sticky top-0 z-10 shadow-sm">
+                <div className="container">
+                    <div className="flex flex-col lg:flex-row gap-6 items-center">
+                        <div className="w-full lg:flex-1 search-container">
+                            <div className="search-input-group !border-none">
+                                <Search className="text-dr-blue" size={22} />
+                                <input
+                                    type="text"
+                                    placeholder="¿Qué estás buscando hoy?"
+                                    className="search-field !text-xl"
+                                    value={search}
+                                    onChange={(e) => updateParam('search', e.target.value)}
+                                />
+                            </div>
                         </div>
 
-                        <div className="flex w-full md:w-auto gap-4">
-                            <div className="relative flex-1 md:w-48">
-                                <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                        <div className="flex w-full lg:w-auto gap-4">
+                            <div className="flex items-center gap-2 px-6 py-4 bg-gray-50 rounded-2xl border border-gray-100 min-w-[180px]">
+                                <MapPin size={18} className="text-dr-red" />
                                 <select
-                                    className="form-input pl-12 h-14 font-bold"
+                                    className="bg-transparent border-none outline-none font-black text-xs uppercase tracking-widest cursor-pointer w-full"
                                     value={city}
                                     onChange={(e) => updateParam('city', e.target.value)}
                                 >
@@ -175,147 +135,156 @@ const Directory: React.FC = () => {
 
                             <button
                                 onClick={() => setShowFilters(!showFilters)}
-                                className={`btn h-14 px-6 gap-3 font-bold ${showFilters ? 'btn-primary' : 'btn-outline border-2'}`}
+                                className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all ${showFilters ? 'bg-dr-navy text-white' : 'bg-white border border-gray-100 text-dr-navy hover:border-dr-blue'
+                                    }`}
                             >
-                                <Filter size={18} /> Filtros
+                                <Filter size={18} /> {showFilters ? 'Cerrar' : 'Filtros'}
                             </button>
                         </div>
                     </div>
 
-                    {/* Expanded Filters */}
-                    {showFilters && (
-                        <div className="mt-8 pt-6 border-t border-gray-100 flex flex-wrap gap-2 animate-in">
-                            <button
-                                onClick={() => updateParam('category', '')}
-                                className={`pill ${category === '' ? 'pill-active' : 'pill-inactive'}`}
+                    <AnimatePresence>
+                        {showFilters && (
+                            <motion.div
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                className="mt-8 pt-8 border-t border-gray-100 flex flex-wrap gap-3"
                             >
-                                Todas
-                            </button>
-                            {CATEGORIES.map(cat => (
                                 <button
-                                    key={cat.id}
-                                    onClick={() => updateParam('category', cat.slug)}
-                                    className={`pill ${category === cat.slug ? 'pill-active' : 'pill-inactive'}`}
+                                    onClick={() => updateParam('category', '')}
+                                    className={`px-6 py-2.5 rounded-full font-black text-[10px] uppercase tracking-widest border-2 transition-all ${category === '' ? 'bg-dr-blue border-dr-blue text-white shadow-lg' : 'bg-white border-gray-100 text-gray-400 hover:border-dr-blue'
+                                        }`}
                                 >
-                                    <span className="mr-1">{cat.icon}</span> {cat.name}
+                                    TODAS
                                 </button>
-                            ))}
-                        </div>
-                    )}
+                                {CATEGORIES.map(cat => (
+                                    <button
+                                        key={cat.id}
+                                        onClick={() => updateParam('category', cat.slug)}
+                                        className={`px-6 py-2.5 rounded-full font-black text-[10px] uppercase tracking-widest border-2 transition-all flex items-center gap-2 ${category === cat.slug ? 'bg-dr-blue border-dr-blue text-white shadow-lg' : 'bg-white border-gray-100 text-gray-400 hover:border-dr-blue'
+                                            }`}
+                                    >
+                                        <span>{cat.icon}</span> {cat.name}
+                                    </button>
+                                ))}
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                 </div>
             </div>
 
-            <div className="container mx-auto px-4 py-12">
-                <div className="flex items-center justify-between mb-8">
+            {/* ── RESULTS SECTION ── */}
+            <div className="container py-16">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-16">
                     <div>
-                        <h1 className="text-2xl font-black dark:text-gray-900 uppercase tracking-tight">
-                            {businesses.length} Resultados encontrados
-                        </h1>
-                        <p className="text-sm text-gray-500 font-bold mt-1">Explorando {category || 'todas las categorías'} en {city}</p>
+                        <span className="section-tag">Explora</span>
+                        <h2 className="section-head !mb-2 uppercase tracking-tight">
+                            {businesses.length} Negocios <span className="text-dr-blue">Encontrados</span>
+                        </h2>
+                        <p className="text-sm text-text-muted font-medium">Mostrando resultados para <span className="text-dr-navy font-black">{category || 'Todas las categorías'}</span> en <span className="text-dr-navy font-black">{city}</span></p>
                     </div>
 
-                    <div className="flex bg-white p-1 rounded-xl border border-gray-200">
+                    <div className="flex bg-white p-2 rounded-2xl border border-gray-100 shadow-sm">
                         <button
                             onClick={() => setViewMode('grid')}
-                            className={`p-2 rounded-lg transition-all ${viewMode === 'grid' ? 'bg-dr-blue text-white shadow-lg' : 'text-gray-400 hover:text-dr-blue'}`}
+                            className={`p-3 rounded-xl transition-all ${viewMode === 'grid' ? 'bg-dr-blue text-white shadow-xl' : 'text-gray-400'}`}
                         >
-                            <Grid size={20} />
+                            <Grid size={22} />
                         </button>
                         <button
                             onClick={() => setViewMode('map')}
-                            className={`p-2 rounded-lg transition-all ${viewMode === 'map' ? 'bg-dr-blue text-white shadow-lg' : 'text-gray-400 hover:text-dr-blue'}`}
+                            className={`p-3 rounded-xl transition-all ${viewMode === 'map' ? 'bg-dr-blue text-white shadow-xl' : 'text-gray-400'}`}
                         >
-                            <MapIcon size={20} />
+                            <MapIcon size={22} />
                         </button>
                     </div>
                 </div>
 
                 {loading ? (
-                    <div className="flex flex-col items-center justify-center py-20 gap-4 opacity-50">
-                        <div className="spinner"></div>
-                        <span className="text-xs font-black uppercase tracking-widest text-dr-blue">Buscando negocios...</span>
+                    <div className="flex flex-col items-center justify-center py-32 gap-6">
+                        <div className="spinner !w-12 !h-12 border-4"></div>
+                        <span className="text-[10px] font-black uppercase tracking-[0.4em] text-dr-blue animate-pulse">Buscando en la red...</span>
                     </div>
                 ) : businesses.length === 0 ? (
-                    <div className="bg-white rounded-[40px] p-20 text-center border-2 border-dashed border-gray-200">
-                        <div className="size-24 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <Search size={40} className="text-gray-300" />
+                    <div className="bg-white rounded-[50px] p-24 text-center border border-gray-100 shadow-xl max-w-2xl mx-auto">
+                        <div className="size-24 bg-gray-50 rounded-[30px] flex items-center justify-center mx-auto mb-10">
+                            <Search size={40} className="text-gray-200" />
                         </div>
-                        <h2 className="text-2xl font-black mb-2">No encontramos nada</h2>
-                        <p className="text-gray-500 font-medium mb-8">Intenta cambiar los filtros o buscar términos más generales.</p>
+                        <h3 className="text-3xl font-black mb-4 uppercase tracking-tighter">Sin resultados</h3>
+                        <p className="text-text-muted font-medium mb-10 leading-relaxed">No hemos encontrado ningún negocio bajo estos términos. Intenta ampliar tu búsqueda o cambiar la categoría.</p>
                         <button
                             onClick={() => setSearchParams({ city: 'Barcelona' })}
-                            className="btn btn-primary"
+                            className="btn btn-primary btn-lg"
                         >
-                            Limpiar Búsqueda
+                            Limpiar Filtros
                         </button>
                     </div>
                 ) : viewMode === 'grid' ? (
-                    <div className="business-grid">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                         {businesses.map((biz, index) => (
-                            <React.Fragment key={biz.id}>
-                                {(index > 0 && index % 6 === 0) && (
-                                    <div className="md:col-span-2 lg:col-span-3">
-                                        <AdBanner
-                                            type="horizontal"
-                                            imageUrl="https://images.unsplash.com/photo-1549421263-54010903337f?q=80&w=1200&auto=format&fit=crop"
-                                            linkUrl="/registro"
-                                            label="Espacio Patrocinado"
-                                        />
-                                    </div>
-                                )}
+                            <motion.div
+                                key={biz.id}
+                                initial={{ opacity: 0, y: 30 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: index * 0.05 }}
+                            >
                                 <Link
                                     to={`/negocio/${biz.slug}`}
-                                    className={`card group flex flex-col h-full ${biz.is_premium ? 'card-premium' : ''} ${biz.is_sponsored ? 'ring-2 ring-dr-gold' : ''}`}
+                                    className={`modern-card flex flex-col h-full !p-0 overflow-hidden group ${biz.is_premium ? 'ring-2 ring-dr-gold' : ''}`}
                                 >
                                     <div className="relative aspect-video overflow-hidden">
                                         <img
                                             src={biz.images[0] || 'https://via.placeholder.com/800x450'}
                                             alt={biz.name}
-                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
                                         />
-                                        {biz.is_sponsored && (
-                                            <div className="absolute top-4 left-4 bg-dr-gold text-white px-3 py-1 rounded-full text-[10px] font-black uppercase shadow-lg">
-                                                Patrocinado
-                                            </div>
-                                        )}
+                                        <div className="absolute inset-0 bg-gradient-to-t from-dr-navy/40 to-transparent"></div>
+
                                         {biz.is_premium && (
-                                            <div className="absolute top-4 right-4 bg-dr-blue text-white p-2 rounded-xl shadow-lg">
-                                                <Crown size={18} />
+                                            <div className="absolute top-6 right-6 bg-white/10 backdrop-blur-md p-2 rounded-xl text-dr-gold border border-white/20">
+                                                <Crown size={20} />
                                             </div>
                                         )}
-                                        {!biz.is_sponsored && (
-                                            <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1 shadow-md">
-                                                <Star size={14} className="text-dr-gold fill-dr-gold" />
-                                                <span className="font-black text-xs text-dr-blue">{biz.rating_avg || '5.0'}</span>
-                                            </div>
-                                        )}
+
+                                        <div className="absolute top-6 left-6 bg-white/90 px-4 py-1.5 rounded-full flex items-center gap-2 shadow-xl">
+                                            <Star size={14} className="text-dr-gold fill-dr-gold" />
+                                            <span className="font-black text-xs text-dr-blue">{biz.rating_avg || '5.0'}</span>
+                                        </div>
                                     </div>
 
-                                    <div className="p-6 flex-grow flex flex-col">
-                                        <div className="text-[10px] font-black uppercase tracking-widest text-dr-blue mb-2">{biz.category}</div>
-                                        <h3 className="text-xl font-black mb-3 group-hover:text-dr-blue transition-colors line-clamp-1">{biz.name}</h3>
-                                        <p className="text-sm text-gray-500 mb-6 line-clamp-2 leading-relaxed font-medium">{biz.description}</p>
+                                    <div className="p-8 flex-grow flex flex-col">
+                                        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-dr-blue mb-3">{biz.category}</span>
+                                        <h3 className="text-2xl font-black mb-4 group-hover:text-dr-red transition-colors line-clamp-1">
+                                            {biz.name}
+                                        </h3>
+                                        <p className="text-sm text-text-muted mb-8 line-clamp-2 leading-relaxed font-medium">
+                                            {biz.description}
+                                        </p>
 
                                         <div className="mt-auto pt-6 border-t border-gray-100 flex items-center justify-between">
-                                            <div className="flex items-center gap-2 text-gray-400">
-                                                <MapPin size={14} />
-                                                <span className="text-xs font-bold leading-none">{biz.address.split(',')[0]}</span>
+                                            <div className="flex items-center gap-2 text-text-muted">
+                                                <MapPin size={16} className="text-dr-red" />
+                                                <span className="text-[11px] font-black uppercase tracking-widest">{biz.city}</span>
                                             </div>
-                                            <div className="btn btn-ghost btn-sm p-0 group-hover:text-dr-blue">
-                                                Ver perfil <ChevronRight size={14} />
+                                            <div className="size-10 rounded-full border border-gray-100 flex items-center justify-center group-hover:bg-dr-blue group-hover:text-white transition-all group-hover:border-dr-blue">
+                                                <ChevronRight size={18} />
                                             </div>
                                         </div>
                                     </div>
                                 </Link>
-                            </React.Fragment>
+                            </motion.div>
                         ))}
                     </div>
 
                 ) : (
-                    <div className="map-container flex items-center justify-center bg-gray-200 text-gray-500 font-bold">
-                        <div className="text-center">
-                            <MapIcon size={48} className="mx-auto mb-4 opacity-20" />
-                            Vista de Mapa (Próximamente con Leaflet)
+                    <div className="map-container relative rounded-[50px] overflow-hidden shadow-2xl bg-white border border-gray-100">
+                        <div className="absolute inset-0 flex items-center justify-center">
+                            <div className="text-center p-12">
+                                <MapIcon size={64} className="mx-auto mb-6 text-dr-blue opacity-10" />
+                                <h4 className="text-2xl font-black uppercase tracking-tighter mb-2">Próximamente</h4>
+                                <p className="text-text-muted font-medium">La vista de mapa interactivo estará disponible en la próxima actualización.</p>
+                            </div>
                         </div>
                     </div>
                 )}
