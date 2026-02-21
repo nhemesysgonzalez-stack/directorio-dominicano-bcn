@@ -34,7 +34,9 @@ export interface Business {
     is_premium: boolean;
     is_approved: boolean;
     is_featured: boolean;
+    is_sponsored?: boolean;
     subscription_expiry?: string;
+
     views: number;
     clicks: number;
     rating_avg?: number;

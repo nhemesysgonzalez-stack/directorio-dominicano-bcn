@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 import { Search, MapPin, Star, Crown, ChevronRight, TrendingUp, Users, Award } from 'lucide-react';
 import { CATEGORIES, type Business } from '../types';
 import { supabase } from '../lib/supabase';
+import AdBanner from '../components/AdBanner';
 
 const Home: React.FC = () => {
+
     const [searchTerm, setSearchTerm] = useState('');
     const [featuredBusinesses, setFeaturedBusinesses] = useState<Business[]>([]);
     const [loading, setLoading] = useState(true);
@@ -160,6 +162,16 @@ const Home: React.FC = () => {
                 <div className="absolute bottom-10 -right-10 size-60 bg-dr-blue rounded-full opacity-10 blur-3xl"></div>
             </section>
 
+            {/* Top Ad Banner */}
+            <div className="container mx-auto px-4 -mt-10 relative z-20">
+                <AdBanner
+                    type="horizontal"
+                    imageUrl="https://images.unsplash.com/photo-1596443686812-2f45229eebc3?q=80&w=1200&auto=format&fit=crop"
+                    linkUrl="/registro"
+                    label="Anuncio: Promoción Especial"
+                />
+            </div>
+
             {/* Categories Section */}
             <section className="py-20 bg-white">
                 <div className="container mx-auto px-4">
@@ -201,6 +213,17 @@ const Home: React.FC = () => {
                     </div>
                 </div>
             </section>
+
+            {/* Banner Publicitario Medio */}
+            <div className="container mx-auto px-4 py-8">
+                <AdBanner
+                    type="horizontal"
+                    imageUrl="https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=1200&auto=format&fit=crop"
+                    linkUrl="/registro"
+                    label="Tu publicidad aquí - Reach thousands"
+                />
+            </div>
+
 
             {/* Featured Businesses Section */}
             <section className="py-20 bg-surface-2">
@@ -256,6 +279,17 @@ const Home: React.FC = () => {
                     </div>
                 </div>
             </section>
+
+            {/* Banner Publicitario Inferior */}
+            <div className="container mx-auto px-4 py-8">
+                <AdBanner
+                    type="horizontal"
+                    imageUrl="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=1200&auto=format&fit=crop"
+                    linkUrl="/registro"
+                    label="Anúnciate con nosotros"
+                />
+            </div>
+
 
             {/* Pricing / Join Section */}
             <section className="py-24 bg-white overflow-hidden relative">

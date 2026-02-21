@@ -3,6 +3,8 @@ import { useSearchParams, Link } from 'react-router-dom';
 import { Search, MapPin, Filter, Star, Crown, ChevronRight, Grid, Map as MapIcon } from 'lucide-react';
 import { CATEGORIES, CITIES, type Business } from '../types';
 import { supabase } from '../lib/supabase';
+import AdBanner from '../components/AdBanner';
+
 
 const Directory: React.FC = () => {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -249,47 +251,66 @@ const Directory: React.FC = () => {
                     </div>
                 ) : viewMode === 'grid' ? (
                     <div className="business-grid">
-                        {businesses.map((biz) => (
-                            <Link
-                                key={biz.id}
-                                to={`/negocio/${biz.slug}`}
-                                className={`card group flex flex-col h-full ${biz.is_premium ? 'card-premium' : ''}`}
-                            >
-                                <div className="relative aspect-video overflow-hidden">
-                                    <img
-                                        src={biz.images[0] || 'https://via.placeholder.com/800x450'}
-                                        alt={biz.name}
-                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                    />
-                                    {biz.is_premium && (
-                                        <div className="absolute top-4 right-4 bg-dr-blue text-white p-2 rounded-xl shadow-lg">
-                                            <Crown size={18} />
-                                        </div>
-                                    )}
-                                    <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1 shadow-md">
-                                        <Star size={14} className="text-dr-gold fill-dr-gold" />
-                                        <span className="font-black text-xs text-dr-blue">{biz.rating_avg || '5.0'}</span>
+                        {businesses.map((biz, index) => (
+                            <React.Fragment key={biz.id}>
+                                {(index > 0 && index % 6 === 0) && (
+                                    <div className="md:col-span-2 lg:col-span-3">
+                                        <AdBanner
+                                            type="horizontal"
+                                            imageUrl="https://images.unsplash.com/photo-1549421263-54010903337f?q=80&w=1200&auto=format&fit=crop"
+                                            linkUrl="/registro"
+                                            label="Espacio Patrocinado"
+                                        />
                                     </div>
-                                </div>
+                                )}
+                                <Link
+                                    to={`/negocio/${biz.slug}`}
+                                    className={`card group flex flex-col h-full ${biz.is_premium ? 'card-premium' : ''} ${biz.is_sponsored ? 'ring-2 ring-dr-gold' : ''}`}
+                                >
+                                    <div className="relative aspect-video overflow-hidden">
+                                        <img
+                                            src={biz.images[0] || 'https://via.placeholder.com/800x450'}
+                                            alt={biz.name}
+                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                        />
+                                        {biz.is_sponsored && (
+                                            <div className="absolute top-4 left-4 bg-dr-gold text-white px-3 py-1 rounded-full text-[10px] font-black uppercase shadow-lg">
+                                                Patrocinado
+                                            </div>
+                                        )}
+                                        {biz.is_premium && (
+                                            <div className="absolute top-4 right-4 bg-dr-blue text-white p-2 rounded-xl shadow-lg">
+                                                <Crown size={18} />
+                                            </div>
+                                        )}
+                                        {!biz.is_sponsored && (
+                                            <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1 shadow-md">
+                                                <Star size={14} className="text-dr-gold fill-dr-gold" />
+                                                <span className="font-black text-xs text-dr-blue">{biz.rating_avg || '5.0'}</span>
+                                            </div>
+                                        )}
+                                    </div>
 
-                                <div className="p-6 flex-grow flex flex-col">
-                                    <div className="text-[10px] font-black uppercase tracking-widest text-dr-blue mb-2">{biz.category}</div>
-                                    <h3 className="text-xl font-black mb-3 group-hover:text-dr-blue transition-colors line-clamp-1">{biz.name}</h3>
-                                    <p className="text-sm text-gray-500 mb-6 line-clamp-2 leading-relaxed font-medium">{biz.description}</p>
+                                    <div className="p-6 flex-grow flex flex-col">
+                                        <div className="text-[10px] font-black uppercase tracking-widest text-dr-blue mb-2">{biz.category}</div>
+                                        <h3 className="text-xl font-black mb-3 group-hover:text-dr-blue transition-colors line-clamp-1">{biz.name}</h3>
+                                        <p className="text-sm text-gray-500 mb-6 line-clamp-2 leading-relaxed font-medium">{biz.description}</p>
 
-                                    <div className="mt-auto pt-6 border-t border-gray-100 flex items-center justify-between">
-                                        <div className="flex items-center gap-2 text-gray-400">
-                                            <MapPin size={14} />
-                                            <span className="text-xs font-bold leading-none">{biz.address.split(',')[0]}</span>
-                                        </div>
-                                        <div className="btn btn-ghost btn-sm p-0 group-hover:text-dr-blue">
-                                            Ver perfil <ChevronRight size={14} />
+                                        <div className="mt-auto pt-6 border-t border-gray-100 flex items-center justify-between">
+                                            <div className="flex items-center gap-2 text-gray-400">
+                                                <MapPin size={14} />
+                                                <span className="text-xs font-bold leading-none">{biz.address.split(',')[0]}</span>
+                                            </div>
+                                            <div className="btn btn-ghost btn-sm p-0 group-hover:text-dr-blue">
+                                                Ver perfil <ChevronRight size={14} />
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </Link>
+                                </Link>
+                            </React.Fragment>
                         ))}
                     </div>
+
                 ) : (
                     <div className="map-container flex items-center justify-center bg-gray-200 text-gray-500 font-bold">
                         <div className="text-center">
