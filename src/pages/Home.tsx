@@ -18,7 +18,6 @@ const Home: React.FC = () => {
     useEffect(() => {
         const fetchFeatured = async () => {
             setLoading(true);
-            // Mock data for initial development while DB tables are created
             const mockFeatured: Business[] = [
                 {
                     id: '1',
@@ -105,48 +104,40 @@ const Home: React.FC = () => {
         fetchFeatured();
     }, []);
 
-    // Effect for rotating premium businesses every minute (60s)
     useEffect(() => {
         if (premiumBusinesses.length <= 1) return;
-
         const interval = setInterval(() => {
             setActiveFeaturedIndex((prev) => (prev + 1) % premiumBusinesses.length);
-        }, 60000); // 1 minute as requested
-
+        }, 60000);
         return () => clearInterval(interval);
     }, [premiumBusinesses.length]);
 
     return (
         <div className="flex flex-col">
-            {/* Hero Section */}
+            {/* Hero Section - Clean & Direct */}
             <section className="hero-gradient py-24 md:py-32 relative text-white overflow-hidden">
                 <div className="container mx-auto px-4 relative z-10">
-                    <div className="max-w-3xl mx-auto text-center animate-in">
-                        <h1 className="section-title text-white mb-6 text-shadow-lg leading-tight uppercase tracking-tighter">
-                            La Red Unificada de <span className="text-dr-red">Negocios Dominicanos</span> en Barcelona
+                    <div className="max-w-4xl mx-auto text-center animate-in">
+                        <h1 className="section-title text-white mb-4 text-shadow-lg leading-tight uppercase tracking-tighter">
+                            Directorio Dominicano <span className="text-dr-red">Barcelona</span>
                         </h1>
-                        <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 mb-10 border border-white/20 animate-in fade-in duration-1000">
-                            <div className="flex flex-col md:flex-row gap-8 text-left">
-                                <div className="flex-1">
-                                    <h3 className="text-dr-gold font-black uppercase text-xs tracking-[0.2em] mb-3">¿Quiénes Somos?</h3>
-                                    <p className="text-sm font-medium leading-relaxed opacity-90">
-                                        Somos la primera plataforma dedicada a <strong>centralizar y potenciar</strong> el comercio dominicano en Barcelona. Un punto de encuentro digital para nuestra gente.
-                                    </p>
-                                </div>
-                                <div className="hidden md:block w-px bg-white/10"></div>
-                                <div className="flex-1">
-                                    <h3 className="text-dr-gold font-black uppercase text-xs tracking-[0.2em] mb-3">Nuestra Finalidad</h3>
-                                    <p className="text-sm font-medium leading-relaxed opacity-90">
-                                        Facilitar que cada dominicano en Barcelona encuentre lo que busca al instante, mientras impulsamos el <strong>crecimiento colectivo</strong> de nuestros emprendedores.
-                                    </p>
-                                </div>
-                                <div className="hidden md:block w-px bg-white/10"></div>
-                                <div className="flex-1">
-                                    <h3 className="text-dr-gold font-black uppercase text-xs tracking-[0.2em] mb-3">Beneficios</h3>
-                                    <p className="text-sm font-medium leading-relaxed opacity-90">
-                                        Información 100% verificada, visibilidad inmediata para tu negocio y acceso exclusivo a una <strong>red de sinergias</strong> y alianzas estratégicas.
-                                    </p>
-                                </div>
+                        <p className="text-lg md:text-xl font-medium opacity-90 mb-10 max-w-2xl mx-auto">
+                            Encuentra los mejores restaurantes, servicios y negocios locales de nuestra comunidad. ¡Siéntete como en casa!
+                        </p>
+
+                        {/* Quick Info Bar - Horizontal & Discrete */}
+                        <div className="flex flex-wrap justify-center gap-4 md:gap-8 mb-12">
+                            <div className="flex items-center gap-2 bg-white/5 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
+                                <Users size={16} className="text-dr-gold" />
+                                <span className="text-xs font-black uppercase tracking-widest">¿Quiénes Somos?</span>
+                            </div>
+                            <div className="flex items-center gap-2 bg-white/5 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
+                                <TrendingUp size={16} className="text-dr-gold" />
+                                <span className="text-xs font-black uppercase tracking-widest">Finalidad</span>
+                            </div>
+                            <div className="flex items-center gap-2 bg-white/5 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
+                                <Award size={16} className="text-dr-gold" />
+                                <span className="text-xs font-black uppercase tracking-widest">Beneficios</span>
                             </div>
                         </div>
 
@@ -156,7 +147,7 @@ const Home: React.FC = () => {
                                 <Search size={22} className="text-white/60" />
                                 <input
                                     type="text"
-                                    placeholder="¿Qué estás buscando? (ex: Pica Pollo)"
+                                    placeholder="¿Qué buscas? (ex: Pica Pollo, Peluquería...)"
                                     className="bg-transparent border-none outline-none w-full text-lg placeholder:text-white/50"
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
@@ -175,112 +166,87 @@ const Home: React.FC = () => {
                             </Link>
                         </div>
 
-                        {/* Premium Rotating Spotlight */}
-                        {!loading && premiumBusinesses.length > 0 && (
-                            <div className="mt-12 animate-in slide-in-from-bottom-4 duration-1000">
-                                <p className="text-[10px] font-black uppercase tracking-[0.3em] mb-4 text-dr-gold">Destacado del Momento</p>
-                                <Link
-                                    to={`/negocio/${premiumBusinesses[activeFeaturedIndex].slug}`}
-                                    className="inline-flex items-center gap-4 bg-white/10 backdrop-blur-md p-2 pr-6 rounded-2xl border border-white/20 hover:bg-white/20 transition-all group"
-                                >
-                                    <img
-                                        src={premiumBusinesses[activeFeaturedIndex].images[0]}
-                                        className="size-14 rounded-xl object-cover shadow-lg"
-                                        alt=""
-                                    />
-                                    <div className="text-left">
-                                        <h4 className="font-black text-sm uppercase tracking-tight group-hover:text-dr-gold transition-colors">
-                                            {premiumBusinesses[activeFeaturedIndex].name}
-                                        </h4>
-                                        <div className="flex items-center gap-2">
-                                            <div className="flex items-center gap-1">
-                                                <Star size={10} className="text-dr-gold fill-dr-gold" />
-                                                <span className="text-[10px] font-bold">{premiumBusinesses[activeFeaturedIndex].rating_avg}</span>
-                                            </div>
-                                            <span className="text-[8px] opacity-40 uppercase font-bold tracking-widest">• {premiumBusinesses[activeFeaturedIndex].category}</span>
-                                        </div>
-                                    </div>
-                                    <ChevronRight size={16} className="ml-auto opacity-40 group-hover:translate-x-1 transition-all" />
-                                </Link>
-                                <div className="flex justify-center gap-1 mt-4">
-                                    {premiumBusinesses.map((_, i) => (
-                                        <div
-                                            key={i}
-                                            className={`h-1 rounded-full transition-all duration-1000 ${i === activeFeaturedIndex ? 'w-8 bg-dr-gold' : 'w-2 bg-white/20'}`}
-                                        ></div>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-
-                        {/* Stats */}
-                        <div className="flex flex-wrap justify-center gap-8 mt-16 text-white/80">
+                        {/* Stats - Small & Clean */}
+                        <div className="flex justify-center gap-8 mt-12 text-white/60 text-[10px] font-black uppercase tracking-[0.2em]">
                             <div className="flex items-center gap-2">
-                                <TrendingUp size={18} className="text-dr-gold" />
-                                <span className="font-black">150+ Negocios</span>
+                                <span className="text-white">150+</span> Negocios
                             </div>
                             <div className="flex items-center gap-2">
-                                <Users size={18} className="text-dr-gold" />
-                                <span className="font-black">2k+ Usuarios</span>
+                                <span className="text-white">2k+</span> Usuarios
                             </div>
                             <div className="flex items-center gap-2">
-                                <Award size={18} className="text-dr-gold" />
-                                <span className="font-black">Calidad DR</span>
+                                <span className="text-white">Calidad</span> Verificada
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {/* Floating Badges Visualization */}
-                <div className="absolute top-20 -left-10 size-40 bg-dr-red rounded-full opacity-10 blur-3xl"></div>
-                <div className="absolute bottom-10 -right-10 size-60 bg-dr-blue rounded-full opacity-10 blur-3xl"></div>
+                {/* Visual Background Elements */}
+                <div className="absolute top-0 right-0 w-80 h-80 bg-dr-red/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
+                <div className="absolute bottom-0 left-0 w-80 h-80 bg-dr-blue/10 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2"></div>
             </section>
 
-            {/* Top Ad Banner */}
-            <div className="container mx-auto px-4 -mt-10 relative z-20">
-                <AdBanner
-                    type="horizontal"
-                    imageUrl="https://images.unsplash.com/photo-1596443686812-2f45229eebc3?q=80&w=1200&auto=format&fit=crop"
-                    linkUrl="/registro"
-                    label="Anuncio: Promoción Especial"
-                />
-            </div>
+            {/* About / Info Section - Replaces the huge Header box */}
+            <section className="py-20 bg-gray-50">
+                <div className="container mx-auto px-4">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+                        <div className="bg-white p-8 rounded-[40px] shadow-sm border border-gray-100">
+                            <h3 className="text-dr-blue font-black uppercase text-xs tracking-[0.2em] mb-4">¿Quiénes Somos?</h3>
+                            <p className="text-sm text-gray-500 font-medium leading-relaxed">
+                                Somos la primera plataforma dedicada a <strong>centralizar y potenciar</strong> el comercio dominicano en Barcelona. Un punto de encuentro digital para nuestra gente.
+                            </p>
+                        </div>
+                        <div className="bg-white p-8 rounded-[40px] shadow-sm border border-gray-100">
+                            <h3 className="text-dr-red font-black uppercase text-xs tracking-[0.2em] mb-4">Nuestra Finalidad</h3>
+                            <p className="text-sm text-gray-500 font-medium leading-relaxed">
+                                Facilitar que cada dominicano en Barcelona encuentre lo que busca al instante, mientras impulsamos el <strong>crecimiento colectivo</strong> de nuestros emprendedores.
+                            </p>
+                        </div>
+                        <div className="bg-white p-8 rounded-[40px] shadow-sm border border-gray-100">
+                            <h3 className="text-dr-gold font-black uppercase text-xs tracking-[0.2em] mb-4">Beneficios</h3>
+                            <p className="text-sm text-gray-500 font-medium leading-relaxed">
+                                Información 100% verificada, visibilidad inmediata para tu negocio y acceso exclusivo a una <strong>red de sinergias</strong> y alianzas estratégicas.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-            {/* Why Join Section (Snergies) */}
+            {/* Synergies Section */}
             <section className="py-24 bg-white relative overflow-hidden">
                 <div className="container mx-auto px-4 relative z-10">
                     <div className="max-w-4xl mx-auto text-center mb-16">
-                        <span className="badge badge-blue mb-4">¿Por qué estar aquí?</span>
-                        <h2 className="section-title mb-6">Más que un Directorio, una Red de Sinergias</h2>
+                        <span className="badge badge-blue mb-4 uppercase tracking-widest font-black">Red de Sinergias</span>
+                        <h2 className="section-title mb-6">Más que un Directorio, una Comunidad</h2>
                         <p className="section-subtitle">Fomentamos la colaboración entre emprendedores dominicanos para que todos ganemos.</p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
                         <div className="card p-8 bg-surface-2 border-none hover:translate-y-[-8px] transition-all">
-                            <div className="size-14 rounded-2xl bg-white flex items-center justify-center text-dr-blue shadow-sm mb-6">
+                            <div className="size-14 rounded-2xl bg-white flex items-center justify-center text-dr-blue shadow-sm mb-6 mx-auto md:mx-0">
                                 <TrendingUp size={28} />
                             </div>
-                            <h3 className="text-xl font-black mb-4 uppercase tracking-tight">Suministros Estratégicos</h3>
-                            <p className="text-sm text-gray-500 font-medium leading-relaxed">
-                                Una <strong>frutería dominicana</strong> puede vender sus productos frescos a un <strong>restaurante dominicano</strong> con precios preferenciales, ganando un cliente fijo y el restaurante un proveedor de confianza y calidad nacional.
+                            <h3 className="text-lg font-black mb-4 uppercase tracking-tight">Suministros Estratégicos</h3>
+                            <p className="text-xs text-gray-500 font-medium leading-relaxed">
+                                Una <strong>frutería dominicana</strong> puede vender sus productos frescos a un <strong>restaurante dominicano</strong> con precios preferenciales, ganando un cliente fijo y el restaurante un proveedor de confianza.
                             </p>
                         </div>
                         <div className="card p-8 bg-surface-2 border-none hover:translate-y-[-8px] transition-all">
-                            <div className="size-14 rounded-2xl bg-white flex items-center justify-center text-dr-red shadow-sm mb-6">
+                            <div className="size-14 rounded-2xl bg-white flex items-center justify-center text-dr-red shadow-sm mb-6 mx-auto md:mx-0">
                                 <Users size={28} />
                             </div>
-                            <h3 className="text-xl font-black mb-4 uppercase tracking-tight">Alianzas de Eventos</h3>
-                            <p className="text-sm text-gray-500 font-medium leading-relaxed">
-                                Una <strong>decoradora de eventos</strong> y un <strong>DJ</strong> pueden crear paquetes conjuntos para bautizos y bodas, ofreciendo un mejor precio final al cliente y asegurando trabajo para ambos.
+                            <h3 className="text-lg font-black mb-4 uppercase tracking-tight">Alianzas de Eventos</h3>
+                            <p className="text-xs text-gray-500 font-medium leading-relaxed">
+                                Una <strong>decoradora de eventos</strong> y un <strong>DJ</strong> pueden crear paquetes conjuntos para bautizos y bodas, ofreciendo un mejor precio final y asegurando trabajo para ambos.
                             </p>
                         </div>
                         <div className="card p-8 bg-surface-2 border-none hover:translate-y-[-8px] transition-all">
-                            <div className="size-14 rounded-2xl bg-white flex items-center justify-center text-dr-gold shadow-sm mb-6">
+                            <div className="size-14 rounded-2xl bg-white flex items-center justify-center text-dr-gold shadow-sm mb-6 mx-auto md:mx-0">
                                 <Award size={28} />
                             </div>
-                            <h3 className="text-xl font-black mb-4 uppercase tracking-tight">Fomento del Consumo</h3>
-                            <p className="text-sm text-gray-500 font-medium leading-relaxed">
-                                Un <strong>colmado</strong> puede entregar cupones de descuento para una <strong>peluquería</strong> cercana, incentivando que los clientes consuman en todos los negocios dominicanos del barrio.
+                            <h3 className="text-lg font-black mb-4 uppercase tracking-tight">Fomento del Consumo</h3>
+                            <p className="text-xs text-gray-500 font-medium leading-relaxed">
+                                Un <strong>colmado</strong> puede entregar cupones de descuento para una <strong>peluquería</strong> cercana, incentivando que los clientes consuman en todos los negocios del barrio.
                             </p>
                         </div>
                     </div>
@@ -329,29 +295,13 @@ const Home: React.FC = () => {
                 </div>
             </section>
 
-            {/* Banner Publicitario Medio */}
-            <div className="container mx-auto px-4 py-8">
-                <AdBanner
-                    type="horizontal"
-                    imageUrl="https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=1200&auto=format&fit=crop"
-                    linkUrl="/registro"
-                    label="Tu publicidad aquí - Reach thousands"
-                />
-            </div>
-
-
-            {/* Premium Intelligence - Live Showcase */}
+            {/* Premium Showcase */}
             <section className="py-24 bg-dr-blue relative overflow-hidden">
                 <div className="container mx-auto px-4 relative z-10">
                     <div className="flex flex-col md:flex-row items-center justify-between gap-10 mb-16">
-                        <div className="text-white">
+                        <div className="text-white text-center md:text-left">
                             <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-4 leading-none">Showcase <span className="text-dr-gold">Gold</span></h2>
-                            <p className="text-white/70 font-medium max-w-lg">Nuestros negocios premium rotan cada minuto para darte la máxima visibilidad.</p>
-                        </div>
-                        <div className="flex gap-2">
-                            <div className="size-3 bg-dr-gold rounded-full animate-bounce"></div>
-                            <div className="size-3 bg-dr-gold rounded-full animate-bounce delay-100"></div>
-                            <div className="size-3 bg-dr-gold rounded-full animate-bounce delay-200"></div>
+                            <p className="text-white/70 font-medium max-w-lg">Nuestros negocios premium rotan constantemente para darte la máxima visibilidad.</p>
                         </div>
                     </div>
 
@@ -371,25 +321,22 @@ const Home: React.FC = () => {
                                             <Crown size={20} />
                                         </div>
                                     </div>
-                                    <div className="absolute bottom-6 left-6 right-6 text-white">
+                                    <div className="absolute bottom-6 left-6 right-6 text-white text-left">
                                         <div className="flex items-center gap-1 text-dr-gold mb-2">
                                             <Star size={12} fill="currentColor" />
                                             <span className="text-xs font-black uppercase tracking-widest">{biz.rating_avg} Rating</span>
                                         </div>
                                         <h3 className="text-2xl font-black uppercase leading-none mb-2">{biz.name}</h3>
-                                        <p className="text-white/60 text-sm line-clamp-2 font-medium">{biz.description}</p>
+                                        <p className="text-white/60 text-xs line-clamp-2 font-medium">{biz.description}</p>
                                     </div>
                                 </div>
                             </Link>
                         ))}
                     </div>
                 </div>
-                {/* Visual elements */}
-                <div className="absolute top-0 right-0 w-96 h-96 bg-dr-gold/5 rounded-full blur-3xl -mr-48 -mt-48"></div>
-                <div className="absolute bottom-0 left-0 w-96 h-96 bg-dr-red/5 rounded-full blur-3xl -ml-48 -mb-48"></div>
             </section>
 
-            {/* Banner Publicitario Inferior */}
+            {/* Ad Banner - Lower */}
             <div className="container mx-auto px-4 py-8">
                 <AdBanner
                     type="horizontal"
@@ -398,92 +345,6 @@ const Home: React.FC = () => {
                     label="Anúnciate con nosotros"
                 />
             </div>
-
-
-            {/* Pricing / Join Section */}
-            <section className="py-24 bg-white overflow-hidden relative">
-                <div className="container mx-auto px-4">
-                    <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-16">
-                        <div className="lg:w-1/2">
-                            <span className="badge badge-blue mb-6">Impulsa tu negocio</span>
-                            <h2 className="section-title mb-6 leading-none">
-                                ¿Tienes un negocio <span className="text-dr-red italic">dominicano</span>?
-                            </h2>
-                            <p className="text-lg text-gray-500 font-medium mb-10 leading-relaxed">
-                                Únete al directorio más grande de España y conecta con miles de clientes de nuestra comunidad. Tenemos planes para todos los tamaños.
-                            </p>
-
-                            <ul className="space-y-4 mb-10">
-                                <li className="flex items-start gap-3">
-                                    <div className="size-6 rounded-full bg-green-100 flex items-center justify-center text-green-600 mt-0.5">
-                                        <TrendingUp size={14} />
-                                    </div>
-                                    <div>
-                                        <span className="font-black text-sm block">Mayor Visibilidad</span>
-                                        <span className="text-xs text-gray-400 font-bold">Aparece en las primeras posiciones de búsqueda.</span>
-                                    </div>
-                                </li>
-                                <li className="flex items-start gap-3">
-                                    <div className="size-6 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mt-0.5">
-                                        <Users size={14} />
-                                    </div>
-                                    <div>
-                                        <span className="font-black text-sm block">Clientes Directos</span>
-                                        <span className="text-xs text-gray-400 font-bold">Botón directo a WhatsApp para tus clientes.</span>
-                                    </div>
-                                </li>
-                            </ul>
-
-                            <div className="flex flex-wrap gap-4">
-                                <Link to="/registro" className="btn btn-primary btn-lg px-12 shadow-2xl shadow-dr-blue/20">Registrarme Ahora</Link>
-                                <Link to="/beneficios" className="btn btn-outline btn-lg">Saber más</Link>
-                            </div>
-                        </div>
-
-                        <div className="lg:w-1/2 w-full">
-                            <div className="pricing-card featured relative z-10">
-                                <div className="absolute top-0 right-0 bg-dr-red text-white py-2 px-6 rounded-bl-3xl font-black text-xs uppercase tracking-widest shadow-lg">
-                                    Top Recomendado
-                                </div>
-                                <div className="mb-8">
-                                    <h3 className="text-2xl font-black mb-2 uppercase tracking-tight">Plan Premium</h3>
-                                    <p className="text-white/60 font-bold text-sm">Escala tu negocio al máximo</p>
-                                </div>
-                                <div className="flex items-center justify-center gap-1 mb-8">
-                                    <span className="text-5xl font-black">10€</span>
-                                    <span className="text-white/60 font-bold">/mes</span>
-                                </div>
-                                <ul className="space-y-4 text-left mb-10">
-                                    <li className="flex items-center gap-3 font-bold text-sm">
-                                        <span className="material-symbols-outlined text-dr-gold">check_circle</span>
-                                        Perfil Destacado y Badge Gold
-                                    </li>
-                                    <li className="flex items-center gap-3 font-bold text-sm">
-                                        <span className="material-symbols-outlined text-dr-gold">check_circle</span>
-                                        Galería de hasta 10 fotos
-                                    </li>
-                                    <li className="flex items-center gap-3 font-bold text-sm">
-                                        <span className="material-symbols-outlined text-dr-gold">check_circle</span>
-                                        Video promocional en perfil
-                                    </li>
-                                    <li className="flex items-center gap-3 font-bold text-sm">
-                                        <span className="material-symbols-outlined text-dr-gold">check_circle</span>
-                                        Estadísticas detalladas de clics
-                                    </li>
-                                    <li className="flex items-center gap-3 font-bold text-sm">
-                                        <span className="material-symbols-outlined text-dr-gold">check_circle</span>
-                                        Sección de Promociones propia
-                                    </li>
-                                </ul>
-                                <Link to="/registro?plan=premium" className="btn btn-gold btn-lg w-full font-black uppercase tracking-widest">
-                                    Elegir Premium
-                                </Link>
-                                <p className="mt-6 text-[10px] text-white/40 font-bold uppercase tracking-widest">Sin compromiso • Cancela cuando quieras</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
         </div>
     );
 };
