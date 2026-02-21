@@ -7,9 +7,14 @@ export default {
     theme: {
         extend: {
             colors: {
-                'dr-blue': '#003893',
-                'dr-red': '#CE1126',
-                'dr-white': '#FFFFFF',
+                'dr-blue': '#002B5B',
+                'dr-red': '#D31F3B',
+                'dr-gold': '#EAB308',
+                'dr-navy': '#001A3D',
+            },
+            fontFamily: {
+                outfit: ['Outfit', 'sans-serif'],
+                inter: ['Inter', 'sans-serif'],
             },
         },
     },

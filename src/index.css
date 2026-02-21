@@ -1,22 +1,9 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
 
-@theme {
-  --color-dr-blue: #002B5B;
-  --color-dr-red: #D31F3B;
-  --color-dr-gold: #EAB308;
-  --color-dr-navy: #001A3D;
-  --color-surface-2: #F1F5F9;
-
-  --font-outfit: "Outfit", sans-serif;
-  --font-inter: "Inter", sans-serif;
-
-  --radius-xl: 40px;
-  --radius-2xl: 48px;
-}
-
-/* Base resets */
 @layer base {
   body {
     @apply font-inter text-slate-900 bg-white antialiased m-0 p-0;
@@ -32,7 +19,6 @@
   }
 }
 
-/* Global Components & Utilities */
 @layer components {
   .btn {
     @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl font-bold transition-all cursor-pointer border-none outline-none;
