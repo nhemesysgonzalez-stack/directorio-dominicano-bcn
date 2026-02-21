@@ -1,11 +1,11 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://placeholder.supabase.co';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'placeholder';
+const rawUrl = (import.meta.env.VITE_SUPABASE_URL || '').trim();
+const rawKey = (import.meta.env.VITE_SUPABASE_ANON_KEY || '').trim();
 
-if (!import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_ANON_KEY) {
-    console.warn('Supabase environment variables are missing. Please check your .env file or Vercel settings.');
-}
+const supabaseUrl = rawUrl || 'https://placeholder.supabase.co';
+const supabaseAnonKey = rawKey || 'placeholder';
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
 
