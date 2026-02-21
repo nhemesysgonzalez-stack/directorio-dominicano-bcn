@@ -10,6 +10,10 @@ const Home: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [featuredBusinesses, setFeaturedBusinesses] = useState<Business[]>([]);
     const [loading, setLoading] = useState(true);
+    const [activeFeaturedIndex, setActiveFeaturedIndex] = useState(0);
+
+    // Filter premium businesses for the rotating showcase
+    const premiumBusinesses = featuredBusinesses.filter(b => b.is_premium);
 
     useEffect(() => {
         const fetchFeatured = async () => {
@@ -101,18 +105,50 @@ const Home: React.FC = () => {
         fetchFeatured();
     }, []);
 
+    // Effect for rotating premium businesses every minute (60s)
+    useEffect(() => {
+        if (premiumBusinesses.length <= 1) return;
+
+        const interval = setInterval(() => {
+            setActiveFeaturedIndex((prev) => (prev + 1) % premiumBusinesses.length);
+        }, 60000); // 1 minute as requested
+
+        return () => clearInterval(interval);
+    }, [premiumBusinesses.length]);
+
     return (
         <div className="flex flex-col">
             {/* Hero Section */}
             <section className="hero-gradient py-24 md:py-32 relative text-white overflow-hidden">
                 <div className="container mx-auto px-4 relative z-10">
                     <div className="max-w-3xl mx-auto text-center animate-in">
-                        <h1 className="section-title text-white mb-6 text-shadow-lg">
-                            El rincón dominicano en <span className="text-dr-red">Barcelona</span>
+                        <h1 className="section-title text-white mb-6 text-shadow-lg leading-tight uppercase tracking-tighter">
+                            La Red Unificada de <span className="text-dr-red">Negocios Dominicanos</span> en Barcelona
                         </h1>
-                        <p className="text-lg md:text-xl font-medium opacity-90 mb-10 leading-relaxed max-w-2xl mx-auto">
-                            Descubre los mejores restaurantes, servicios y negocios locales de nuestra comunidad. ¡Siéntete como en casa!
-                        </p>
+                        <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 mb-10 border border-white/20 animate-in fade-in duration-1000">
+                            <div className="flex flex-col md:flex-row gap-8 text-left">
+                                <div className="flex-1">
+                                    <h3 className="text-dr-gold font-black uppercase text-xs tracking-[0.2em] mb-3">¿Quiénes Somos?</h3>
+                                    <p className="text-sm font-medium leading-relaxed opacity-90">
+                                        Somos la primera plataforma dedicada a <strong>centralizar y potenciar</strong> el comercio dominicano en Barcelona. Un punto de encuentro digital para nuestra gente.
+                                    </p>
+                                </div>
+                                <div className="hidden md:block w-px bg-white/10"></div>
+                                <div className="flex-1">
+                                    <h3 className="text-dr-gold font-black uppercase text-xs tracking-[0.2em] mb-3">Nuestra Finalidad</h3>
+                                    <p className="text-sm font-medium leading-relaxed opacity-90">
+                                        Facilitar que cada dominicano en Barcelona encuentre lo que busca al instante, mientras impulsamos el <strong>crecimiento colectivo</strong> de nuestros emprendedores.
+                                    </p>
+                                </div>
+                                <div className="hidden md:block w-px bg-white/10"></div>
+                                <div className="flex-1">
+                                    <h3 className="text-dr-gold font-black uppercase text-xs tracking-[0.2em] mb-3">Beneficios</h3>
+                                    <p className="text-sm font-medium leading-relaxed opacity-90">
+                                        Información 100% verificada, visibilidad inmediata para tu negocio y acceso exclusivo a una <strong>red de sinergias</strong> y alianzas estratégicas.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
 
                         {/* Search Box */}
                         <div className="bg-white/10 backdrop-blur-xl p-2 rounded-3xl border border-white/20 shadow-2xl flex flex-col md:flex-row gap-2 max-w-2xl mx-auto">
@@ -138,6 +174,44 @@ const Home: React.FC = () => {
                                 Buscar
                             </Link>
                         </div>
+
+                        {/* Premium Rotating Spotlight */}
+                        {!loading && premiumBusinesses.length > 0 && (
+                            <div className="mt-12 animate-in slide-in-from-bottom-4 duration-1000">
+                                <p className="text-[10px] font-black uppercase tracking-[0.3em] mb-4 text-dr-gold">Destacado del Momento</p>
+                                <Link
+                                    to={`/negocio/${premiumBusinesses[activeFeaturedIndex].slug}`}
+                                    className="inline-flex items-center gap-4 bg-white/10 backdrop-blur-md p-2 pr-6 rounded-2xl border border-white/20 hover:bg-white/20 transition-all group"
+                                >
+                                    <img
+                                        src={premiumBusinesses[activeFeaturedIndex].images[0]}
+                                        className="size-14 rounded-xl object-cover shadow-lg"
+                                        alt=""
+                                    />
+                                    <div className="text-left">
+                                        <h4 className="font-black text-sm uppercase tracking-tight group-hover:text-dr-gold transition-colors">
+                                            {premiumBusinesses[activeFeaturedIndex].name}
+                                        </h4>
+                                        <div className="flex items-center gap-2">
+                                            <div className="flex items-center gap-1">
+                                                <Star size={10} className="text-dr-gold fill-dr-gold" />
+                                                <span className="text-[10px] font-bold">{premiumBusinesses[activeFeaturedIndex].rating_avg}</span>
+                                            </div>
+                                            <span className="text-[8px] opacity-40 uppercase font-bold tracking-widest">• {premiumBusinesses[activeFeaturedIndex].category}</span>
+                                        </div>
+                                    </div>
+                                    <ChevronRight size={16} className="ml-auto opacity-40 group-hover:translate-x-1 transition-all" />
+                                </Link>
+                                <div className="flex justify-center gap-1 mt-4">
+                                    {premiumBusinesses.map((_, i) => (
+                                        <div
+                                            key={i}
+                                            className={`h-1 rounded-full transition-all duration-1000 ${i === activeFeaturedIndex ? 'w-8 bg-dr-gold' : 'w-2 bg-white/20'}`}
+                                        ></div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
 
                         {/* Stats */}
                         <div className="flex flex-wrap justify-center gap-8 mt-16 text-white/80">
@@ -171,6 +245,47 @@ const Home: React.FC = () => {
                     label="Anuncio: Promoción Especial"
                 />
             </div>
+
+            {/* Why Join Section (Snergies) */}
+            <section className="py-24 bg-white relative overflow-hidden">
+                <div className="container mx-auto px-4 relative z-10">
+                    <div className="max-w-4xl mx-auto text-center mb-16">
+                        <span className="badge badge-blue mb-4">¿Por qué estar aquí?</span>
+                        <h2 className="section-title mb-6">Más que un Directorio, una Red de Sinergias</h2>
+                        <p className="section-subtitle">Fomentamos la colaboración entre emprendedores dominicanos para que todos ganemos.</p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div className="card p-8 bg-surface-2 border-none hover:translate-y-[-8px] transition-all">
+                            <div className="size-14 rounded-2xl bg-white flex items-center justify-center text-dr-blue shadow-sm mb-6">
+                                <TrendingUp size={28} />
+                            </div>
+                            <h3 className="text-xl font-black mb-4 uppercase tracking-tight">Economía Circular</h3>
+                            <p className="text-sm text-gray-500 font-medium leading-relaxed">
+                                Una <strong>frutería</strong> puede ofrecer descuentos especiales en excedentes a <strong>restaurantes</strong> de la red, reduciendo costes y desperdicio.
+                            </p>
+                        </div>
+                        <div className="card p-8 bg-surface-2 border-none hover:translate-y-[-8px] transition-all">
+                            <div className="size-14 rounded-2xl bg-white flex items-center justify-center text-dr-red shadow-sm mb-6">
+                                <Users size={28} />
+                            </div>
+                            <h3 className="text-xl font-black mb-4 uppercase tracking-tight">Alianzas de Eventos</h3>
+                            <p className="text-sm text-gray-500 font-medium leading-relaxed">
+                                Una <strong>floristería</strong> y un <strong>DJ</strong> pueden crear paquetes conjuntos para bodas y bautizos, atrayendo más clientes juntos.
+                            </p>
+                        </div>
+                        <div className="card p-8 bg-surface-2 border-none hover:translate-y-[-8px] transition-all">
+                            <div className="size-14 rounded-2xl bg-white flex items-center justify-center text-dr-gold shadow-sm mb-6">
+                                <Award size={28} />
+                            </div>
+                            <h3 className="text-xl font-black mb-4 uppercase tracking-tight">Ventas Cruzadas</h3>
+                            <p className="text-sm text-gray-500 font-medium leading-relaxed">
+                                Un <strong>colmado</strong> puede promocionar las ofertas de una <strong>peluquería</strong> cercana a cambio de visibilidad mutua en sus locales.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
             {/* Categories Section */}
             <section className="py-20 bg-white">
@@ -225,59 +340,53 @@ const Home: React.FC = () => {
             </div>
 
 
-            {/* Featured Businesses Section */}
-            <section className="py-20 bg-surface-2">
-                <div className="container mx-auto px-4">
-                    <div className="flex items-center gap-3 mb-4">
-                        <span className="badge badge-premium">Premium</span>
-                        <span className="font-black text-[10px] uppercase tracking-widest text-dr-gold">Destacados</span>
+            {/* Premium Intelligence - Live Showcase */}
+            <section className="py-24 bg-dr-blue relative overflow-hidden">
+                <div className="container mx-auto px-4 relative z-10">
+                    <div className="flex flex-col md:flex-row items-center justify-between gap-10 mb-16">
+                        <div className="text-white">
+                            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-4 leading-none">Showcase <span className="text-dr-gold">Gold</span></h2>
+                            <p className="text-white/70 font-medium max-w-lg">Nuestros negocios premium rotan cada minuto para darte la máxima visibilidad.</p>
+                        </div>
+                        <div className="flex gap-2">
+                            <div className="size-3 bg-dr-gold rounded-full animate-bounce"></div>
+                            <div className="size-3 bg-dr-gold rounded-full animate-bounce delay-100"></div>
+                            <div className="size-3 bg-dr-gold rounded-full animate-bounce delay-200"></div>
+                        </div>
                     </div>
-                    <h2 className="section-title mb-12">Negocios Recomendados</h2>
 
-                    <div className="business-grid">
-                        {loading ? (
-                            [1, 2, 3].map(i => (
-                                <div key={i} className="card h-[400px] animate-pulse bg-gray-200"></div>
-                            ))
-                        ) : (
-                            featuredBusinesses.map((biz) => (
-                                <Link key={biz.id} to={`/negocio/${biz.slug}`} className="card card-premium flex flex-col h-full group">
-                                    <div className="relative aspect-video overflow-hidden">
-                                        <img
-                                            src={biz.images[0]}
-                                            alt={biz.name}
-                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                        />
-                                        <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1 shadow-md">
-                                            <Star size={14} className="text-dr-gold fill-dr-gold" />
-                                            <span className="font-black text-xs text-dr-blue">{biz.rating_avg}</span>
-                                        </div>
-                                        {biz.is_premium && (
-                                            <div className="absolute top-4 right-4 bg-dr-blue text-white p-2 rounded-xl shadow-lg border border-white/20">
-                                                <Crown size={18} />
-                                            </div>
-                                        )}
-                                    </div>
-                                    <div className="p-6 flex-grow flex flex-col">
-                                        <div className="text-[10px] font-black uppercase tracking-widest text-dr-blue mb-2">{biz.category}</div>
-                                        <h3 className="text-xl font-black mb-3 group-hover:text-dr-blue transition-colors line-clamp-1">{biz.name}</h3>
-                                        <p className="text-sm text-gray-500 mb-6 line-clamp-2 leading-relaxed font-medium">{biz.description}</p>
-
-                                        <div className="mt-auto pt-6 border-t border-gray-100 flex items-center justify-between">
-                                            <div className="flex items-center gap-2 text-gray-400">
-                                                <MapPin size={14} />
-                                                <span className="text-xs font-bold leading-none">{biz.city}</span>
-                                            </div>
-                                            <div className="btn btn-ghost btn-sm p-0 group-hover:text-dr-blue">
-                                                Ver perfil <ChevronRight size={14} />
-                                            </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {featuredBusinesses.map((biz, idx) => (
+                            <Link
+                                key={biz.id}
+                                to={`/negocio/${biz.slug}`}
+                                className={`card group overflow-hidden border-none transform transition-all duration-700 hover:scale-[1.02] ${idx === 1 ? 'lg:translate-y-12' : ''}`}
+                            >
+                                <div className="relative aspect-[4/5]">
+                                    <img src={biz.images[0]} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                                    <div className="absolute top-6 left-6 flex flex-col gap-2">
+                                        <span className="badge badge-premium px-3 py-1 text-[10px] w-fit">Premium Gold</span>
+                                        <div className="size-12 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/20">
+                                            <Crown size={20} />
                                         </div>
                                     </div>
-                                </Link>
-                            ))
-                        )}
+                                    <div className="absolute bottom-6 left-6 right-6 text-white">
+                                        <div className="flex items-center gap-1 text-dr-gold mb-2">
+                                            <Star size={12} fill="currentColor" />
+                                            <span className="text-xs font-black uppercase tracking-widest">{biz.rating_avg} Rating</span>
+                                        </div>
+                                        <h3 className="text-2xl font-black uppercase leading-none mb-2">{biz.name}</h3>
+                                        <p className="text-white/60 text-sm line-clamp-2 font-medium">{biz.description}</p>
+                                    </div>
+                                </div>
+                            </Link>
+                        ))}
                     </div>
                 </div>
+                {/* Visual elements */}
+                <div className="absolute top-0 right-0 w-96 h-96 bg-dr-gold/5 rounded-full blur-3xl -mr-48 -mt-48"></div>
+                <div className="absolute bottom-0 left-0 w-96 h-96 bg-dr-red/5 rounded-full blur-3xl -ml-48 -mb-48"></div>
             </section>
 
             {/* Banner Publicitario Inferior */}

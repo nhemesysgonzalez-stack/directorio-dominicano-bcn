@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
@@ -41,9 +41,9 @@ function App() {
                   Conectando la comunidad dominicana en Barcelona. Encuentra los mejores negocios, servicios y productos de nuestra tierra.
                 </p>
                 <div className="flex justify-center gap-8 mb-8">
-                  <a href="#" className="text-gray-400 hover:text-dr-blue transition-colors font-semibold">Términos</a>
-                  <a href="#" className="text-gray-400 hover:text-dr-blue transition-colors font-semibold">Privacidad</a>
-                  <a href="#" className="text-gray-400 hover:text-dr-blue transition-colors font-semibold">Contacto</a>
+                  <Link to="/terminos" className="text-gray-400 hover:text-dr-blue transition-colors font-semibold">Términos</Link>
+                  <Link to="/privacidad" className="text-gray-400 hover:text-dr-blue transition-colors font-semibold">Privacidad</Link>
+                  <a href="mailto:nhemesysgonzalez@gmail.com" className="text-gray-400 hover:text-dr-blue transition-colors font-semibold">Contacto</a>
                 </div>
                 <div className="text-gray-400 text-[10px] font-bold uppercase tracking-widest">
                   © 2026 Directorio Dominicano BCN. Hecho con ❤️ para la comunidad.

@@ -3,10 +3,23 @@ import { useParams, Link } from 'react-router-dom';
 import {
     MapPin, Phone, MessageSquare, Instagram, Facebook, Globe, Clock,
     Star, Crown, Share2, ChevronLeft, Play, Award,
-    ShieldCheck, ArrowRight, Camera
+    ShieldCheck, ArrowRight, Camera, TrendingUp, Zap
 } from 'lucide-react';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import { type Business, type Review } from '../types';
 import { supabase } from '../lib/supabase';
+
+// Fix Leaflet marker icon issue
+const DefaultIcon = L.icon({
+    iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+    shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41]
+});
+L.Marker.prototype.options.icon = DefaultIcon;
+
 
 const BusinessProfile: React.FC = () => {
     const { slug } = useParams<{ slug: string }>();
@@ -203,24 +216,45 @@ const BusinessProfile: React.FC = () => {
                             </div>
                         )}
 
-                        {/* Location (Static Placeholder) */}
+                        {/* Location (Real Map) */}
                         <div className="card p-10">
-                            <h2 className="text-2xl font-black mb-6 uppercase tracking-tight">Ubicación</h2>
-                            <div className="map-container flex items-center justify-center bg-dr-light mb-6 border-none">
-                                <div className="text-center p-12">
-                                    <MapPin size={48} className="mx-auto mb-4 text-dr-red animate-bounce" />
-                                    <p className="font-black text-dr-blue">{business.address}</p>
-                                    <p className="text-xs text-gray-400 font-bold mt-2 uppercase tracking-widest">Mapa de Leaflet aquí</p>
-                                </div>
+                            <h2 className="text-2xl font-black mb-6 uppercase tracking-tight flex items-center gap-3">
+                                <MapPin className="text-dr-red" /> Ubicación en Tiempo Real
+                            </h2>
+                            <div className="h-[400px] w-full rounded-3xl overflow-hidden border-4 border-white shadow-xl mb-6 relative z-0">
+                                <MapContainer
+                                    center={[business.lat || 41.3851, business.lng || 2.1734]}
+                                    zoom={15}
+                                    scrollWheelZoom={false}
+                                    style={{ height: '100%', width: '100%' }}
+                                >
+                                    <TileLayer
+                                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                    />
+                                    <Marker position={[business.lat || 41.3851, business.lng || 2.1734]}>
+                                        <Popup>
+                                            <div className="p-2">
+                                                <h4 className="font-black border-b border-gray-100 pb-1 mb-1">{business.name}</h4>
+                                                <p className="text-[10px] font-bold text-gray-400">{business.address}</p>
+                                            </div>
+                                        </Popup>
+                                    </Marker>
+                                </MapContainer>
                             </div>
-                            <a
-                                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(business.address)}`}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="btn btn-outline w-full gap-2"
-                            >
-                                Abrir en Google Maps <ArrowRight size={18} />
-                            </a>
+                            <div className="flex flex-col md:flex-row gap-4">
+                                <a
+                                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(business.address)}`}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="btn btn-outline flex-1 gap-2 border-2"
+                                >
+                                    Abrir en Google Maps <ArrowRight size={18} />
+                                </a>
+                                <button className="btn btn-primary flex-1 gap-2 shadow-xl shadow-dr-blue/20">
+                                    ¿Cómo llegar hoy?
+                                </button>
+                            </div>
                         </div>
 
                         {/* Reviews */}
@@ -263,6 +297,34 @@ const BusinessProfile: React.FC = () => {
 
                     {/* Sidebar Actions */}
                     <div className="space-y-8">
+                        {/* Sinergy Card - The Core Idea */}
+                        {business.is_premium && (
+                            <div className="card p-8 bg-dr-blue text-white overflow-hidden relative shadow-2xl shadow-dr-blue/30 scale-105">
+                                <div className="absolute top-0 right-0 p-3">
+                                    <TrendingUp className="text-dr-gold/30" size={80} />
+                                </div>
+                                <h3 className="text-xl font-black mb-4 uppercase tracking-tight flex items-center gap-2">
+                                    <Zap className="text-dr-gold" /> Alianzas de Éxito
+                                </h3>
+                                <p className="text-sm font-bold opacity-80 mb-6 leading-relaxed">
+                                    Este establecimiento es un <strong>Miembro Protector</strong>. Está abierto a crear sinergias con otros comercios dominicanos:
+                                </p>
+                                <div className="space-y-3">
+                                    <div className="p-4 bg-white/10 rounded-2xl border border-white/10 flex items-center gap-3">
+                                        <div className="size-2 bg-dr-gold rounded-full"></div>
+                                        <span className="text-xs font-black uppercase tracking-widest">Descuentos B2B Activos</span>
+                                    </div>
+                                    <div className="p-4 bg-white/10 rounded-2xl border border-white/10 flex items-center gap-3">
+                                        <div className="size-2 bg-dr-gold rounded-full"></div>
+                                        <span className="text-xs font-black uppercase tracking-widest">Eventos Conjuntos</span>
+                                    </div>
+                                </div>
+                                <button className="btn btn-gold btn-sm w-full mt-6 font-black uppercase tracking-widest">
+                                    Proponer Sinergia
+                                </button>
+                            </div>
+                        )}
+
                         {/* Contact Card */}
                         <div className="card p-8 bg-dr-blue text-white sticky top-32">
                             <h3 className="text-xl font-black mb-8 uppercase tracking-tight">¿Hablamos?</h3>
