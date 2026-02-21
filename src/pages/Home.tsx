@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, MapPin, Star, Crown, TrendingUp, Users, ShieldCheck, Award, ChevronRight, Zap } from 'lucide-react';
+import { Search, MapPin, Star, Crown, TrendingUp, Users, ShieldCheck, Award } from 'lucide-react';
 import { CATEGORIES, type Business } from '../types';
 import { supabase } from '../lib/supabase';
 import { motion } from 'framer-motion';
