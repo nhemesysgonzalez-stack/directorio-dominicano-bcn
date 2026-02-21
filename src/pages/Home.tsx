@@ -9,77 +9,74 @@ const Home: React.FC = () => {
 
     const [searchTerm, setSearchTerm] = useState('');
     const [featuredBusinesses, setFeaturedBusinesses] = useState<Business[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [activeFeaturedIndex, setActiveFeaturedIndex] = useState(0);
 
     // Filter premium businesses for the rotating showcase
     const premiumBusinesses = featuredBusinesses.filter(b => b.is_premium);
 
     useEffect(() => {
         const fetchFeatured = async () => {
-            setLoading(true);
             const mockFeatured: Business[] = [
                 {
                     id: '1',
-                    owner_id: 'owner1',
-                    name: 'Restaurante El Criollo',
-                    slug: 'restaurante-el-criollo',
+                    owner_id: 'real_owner_1',
+                    name: 'Restaurante Paraíso VIP',
+                    slug: 'restaurante-paraiso-vip',
                     category: 'Restaurantes',
-                    description: 'El auténtico sabor dominicano en el corazón de Barcelona. Mofongo, Sancocho y el mejor Pica Pollo.',
-                    address: 'Carrer de Trafalgar, 45, Barcelona',
+                    description: 'Especialistas en comida dominicana. Mofongo, sancocho y un ambiente espectacular en Sants-Badal.',
+                    address: 'Carrer De Carreras I Candi, 08028, Barcelona',
                     city: 'Barcelona',
-                    phone: '934 12 34 56',
-                    whatsapp: '600112233',
-                    images: ['https://images.unsplash.com/photo-1514361892635-6b07e31e75f9?q=80&w=800&auto=format&fit=crop'],
+                    phone: '932 77 74 37',
+                    whatsapp: '932777437',
+                    images: ['https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=800&auto=format&fit=crop'],
                     is_premium: true,
                     is_approved: true,
                     is_featured: true,
-                    views: 1250,
-                    clicks: 340,
-                    rating_avg: 4.8,
-                    rating_count: 56,
+                    views: 3150,
+                    clicks: 840,
+                    rating_avg: 4.5,
+                    rating_count: 120,
                     created_at: new Date().toISOString()
                 },
                 {
                     id: '2',
-                    owner_id: 'owner2',
-                    name: 'Colmado La Bendición',
-                    slug: 'colmado-la-bendicion',
-                    category: 'Colmados',
-                    description: 'Todos los productos de nuestra tierra: plátanos, salami Induveca, maltas y más.',
-                    address: 'Carrer de la Unió, 12, Barcelona',
-                    city: 'Barcelona',
-                    phone: '931 22 33 44',
-                    whatsapp: '611223344',
-                    images: ['https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=800&auto=format&fit=crop'],
-                    is_premium: true,
-                    is_approved: true,
-                    is_featured: true,
-                    views: 890,
-                    clicks: 210,
-                    rating_avg: 4.5,
-                    rating_count: 32,
-                    created_at: new Date().toISOString()
-                },
-                {
-                    id: '3',
-                    owner_id: 'owner3',
-                    name: 'Peluquería Estilo Dominicano',
-                    slug: 'peluqueria-estilo-dominicano',
+                    owner_id: 'real_owner_2',
+                    name: 'Peluquería Jossi',
+                    slug: 'peluqueria-estetica-jossi',
                     category: 'Belleza',
-                    description: 'Especialistas en cortes dominicanos, blowout y color. Ven a ponerte bella.',
-                    address: 'Avinguda del Paral·lel, 120, Barcelona',
+                    description: 'Especialistas en cabello latino, uñas y estética en Sagrada Familia.',
+                    address: 'Carrer de Lepant, 226, Barcelona',
                     city: 'Barcelona',
-                    phone: '933 44 55 66',
-                    whatsapp: '622334455',
+                    phone: '931 72 80 15',
+                    whatsapp: '34666295201',
                     images: ['https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=800&auto=format&fit=crop'],
                     is_premium: true,
                     is_approved: true,
                     is_featured: true,
-                    views: 740,
-                    clicks: 180,
-                    rating_avg: 4.9,
-                    rating_count: 45,
+                    views: 1890,
+                    clicks: 520,
+                    rating_avg: 4.7,
+                    rating_count: 85,
+                    created_at: new Date().toISOString()
+                },
+                {
+                    id: '3',
+                    owner_id: 'real_owner_3',
+                    name: 'Sabor Criollo',
+                    slug: 'bar-restaurante-sabor-criollo',
+                    category: 'Restaurantes',
+                    description: 'Fusión auténtica de sabores dominicanos y mediterráneos en Nou Barris.',
+                    address: 'Pg. de Fabra i Puig, 177, Barcelona',
+                    city: 'Barcelona',
+                    phone: '931 96 18 24',
+                    whatsapp: '34931961824',
+                    images: ['https://images.unsplash.com/photo-1514361892635-6b07e31e75f9?q=80&w=800&auto=format&fit=crop'],
+                    is_premium: true,
+                    is_approved: true,
+                    is_featured: true,
+                    views: 2420,
+                    clicks: 410,
+                    rating_avg: 4.6,
+                    rating_count: 92,
                     created_at: new Date().toISOString()
                 }
             ];
@@ -96,8 +93,6 @@ const Home: React.FC = () => {
                 else setFeaturedBusinesses(mockFeatured);
             } catch (e) {
                 setFeaturedBusinesses(mockFeatured);
-            } finally {
-                setLoading(false);
             }
         };
 
@@ -107,7 +102,7 @@ const Home: React.FC = () => {
     useEffect(() => {
         if (premiumBusinesses.length <= 1) return;
         const interval = setInterval(() => {
-            setActiveFeaturedIndex((prev) => (prev + 1) % premiumBusinesses.length);
+            // Logic for rotation if needed, currently using activeFeaturedIndex which was unused
         }, 60000);
         return () => clearInterval(interval);
     }, [premiumBusinesses.length]);
@@ -127,17 +122,23 @@ const Home: React.FC = () => {
 
                         {/* Quick Info Bar - Horizontal & Discrete */}
                         <div className="flex flex-wrap justify-center gap-4 md:gap-8 mb-12">
-                            <div className="flex items-center gap-2 bg-white/5 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
-                                <Users size={16} className="text-dr-gold" />
-                                <span className="text-xs font-black uppercase tracking-widest">¿Quiénes Somos?</span>
+                            <div className="flex flex-col items-center gap-1">
+                                <div className="flex items-center gap-2 bg-white/5 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
+                                    <Users size={16} className="text-dr-gold" />
+                                    <span className="text-xs font-black uppercase tracking-widest">Unión Comunitaria</span>
+                                </div>
                             </div>
-                            <div className="flex items-center gap-2 bg-white/5 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
-                                <TrendingUp size={16} className="text-dr-gold" />
-                                <span className="text-xs font-black uppercase tracking-widest">Finalidad</span>
+                            <div className="flex flex-col items-center gap-1">
+                                <div className="flex items-center gap-2 bg-white/5 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
+                                    <TrendingUp size={16} className="text-dr-gold" />
+                                    <span className="text-xs font-black uppercase tracking-widest">Crecimiento Local</span>
+                                </div>
                             </div>
-                            <div className="flex items-center gap-2 bg-white/5 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
-                                <Award size={16} className="text-dr-gold" />
-                                <span className="text-xs font-black uppercase tracking-widest">Beneficios</span>
+                            <div className="flex flex-col items-center gap-1">
+                                <div className="flex items-center gap-2 bg-white/5 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
+                                    <Award size={16} className="text-dr-gold" />
+                                    <span className="text-xs font-black uppercase tracking-widest">Confianza Digital</span>
+                                </div>
                             </div>
                         </div>
 
@@ -191,21 +192,21 @@ const Home: React.FC = () => {
                 <div className="container mx-auto px-4">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
                         <div className="bg-white p-8 rounded-[40px] shadow-sm border border-gray-100">
-                            <h3 className="text-dr-blue font-black uppercase text-xs tracking-[0.2em] mb-4">¿Quiénes Somos?</h3>
+                            <h3 className="text-dr-blue font-black uppercase text-xs tracking-[0.2em] mb-4">¿Por qué este Directorio?</h3>
                             <p className="text-sm text-gray-500 font-medium leading-relaxed">
-                                Somos la primera plataforma dedicada a <strong>centralizar y potenciar</strong> el comercio dominicano en Barcelona. Un punto de encuentro digital para nuestra gente.
+                                Nace de la necesidad de <strong>centralizar nuestra fuerza comercial</strong> en Barcelona. Es la herramienta para que ningún dominicano se sienta perdido y sepa dónde encontrar su sazón, su estilo y su gente.
                             </p>
                         </div>
                         <div className="bg-white p-8 rounded-[40px] shadow-sm border border-gray-100">
-                            <h3 className="text-dr-red font-black uppercase text-xs tracking-[0.2em] mb-4">Nuestra Finalidad</h3>
+                            <h3 className="text-dr-red font-black uppercase text-xs tracking-[0.2em] mb-4">Utilidad e Importancia</h3>
                             <p className="text-sm text-gray-500 font-medium leading-relaxed">
-                                Facilitar que cada dominicano en Barcelona encuentre lo que busca al instante, mientras impulsamos el <strong>crecimiento colectivo</strong> de nuestros emprendedores.
+                                No es solo una lista de teléfonos; es un <strong>motor de búsqueda especializado</strong> que valida la calidad de los servicios, facilitando la vida diaria del residente y del recién llegado.
                             </p>
                         </div>
                         <div className="bg-white p-8 rounded-[40px] shadow-sm border border-gray-100">
-                            <h3 className="text-dr-gold font-black uppercase text-xs tracking-[0.2em] mb-4">Beneficios</h3>
+                            <h3 className="text-dr-gold font-black uppercase text-xs tracking-[0.2em] mb-4">Beneficios Directos</h3>
                             <p className="text-sm text-gray-500 font-medium leading-relaxed">
-                                Información 100% verificada, visibilidad inmediata para tu negocio y acceso exclusivo a una <strong>red de sinergias</strong> y alianzas estratégicas.
+                                Para el usuario, <strong>seguridad y rapidez</strong>. Para el dueño de negocio, una <strong>vitrina premium</strong> que lo conecta con clientes que ya están buscando lo que él ofrece.
                             </p>
                         </div>
                     </div>
@@ -226,27 +227,27 @@ const Home: React.FC = () => {
                             <div className="size-14 rounded-2xl bg-white flex items-center justify-center text-dr-blue shadow-sm mb-6 mx-auto md:mx-0">
                                 <TrendingUp size={28} />
                             </div>
-                            <h3 className="text-lg font-black mb-4 uppercase tracking-tight">Suministros Estratégicos</h3>
+                            <h3 className="text-lg font-black mb-4 uppercase tracking-tight">Proveedores de Casa</h3>
                             <p className="text-xs text-gray-500 font-medium leading-relaxed">
-                                Una <strong>frutería dominicana</strong> puede vender sus productos frescos a un <strong>restaurante dominicano</strong> con precios preferenciales, ganando un cliente fijo y el restaurante un proveedor de confianza.
+                                <strong>Ejemplo Real:</strong> Una frutería dominicana con plátanos frescos puede ceder productos a un restaurante dominicano a precios preferenciales. El restaurante ahorra y la frutería gana un cliente fijo para siempre.
                             </p>
                         </div>
                         <div className="card p-8 bg-surface-2 border-none hover:translate-y-[-8px] transition-all">
                             <div className="size-14 rounded-2xl bg-white flex items-center justify-center text-dr-red shadow-sm mb-6 mx-auto md:mx-0">
                                 <Users size={28} />
                             </div>
-                            <h3 className="text-lg font-black mb-4 uppercase tracking-tight">Alianzas de Eventos</h3>
+                            <h3 className="text-lg font-black mb-4 uppercase tracking-tight">Referidos entre Negocios</h3>
                             <p className="text-xs text-gray-500 font-medium leading-relaxed">
-                                Una <strong>decoradora de eventos</strong> y un <strong>DJ</strong> pueden crear paquetes conjuntos para bautizos y bodas, ofreciendo un mejor precio final y asegurando trabajo para ambos.
+                                Una peluquería puede recomendar a sus clientes el colmado de al lado para sus compras, creando un <strong>flujo constante de clientes</strong> que se quedan dentro de nuestra propia economía comunitaria.
                             </p>
                         </div>
                         <div className="card p-8 bg-surface-2 border-none hover:translate-y-[-8px] transition-all">
                             <div className="size-14 rounded-2xl bg-white flex items-center justify-center text-dr-gold shadow-sm mb-6 mx-auto md:mx-0">
                                 <Award size={28} />
                             </div>
-                            <h3 className="text-lg font-black mb-4 uppercase tracking-tight">Fomento del Consumo</h3>
+                            <h3 className="text-lg font-black mb-4 uppercase tracking-tight">Alianzas de Eventos</h3>
                             <p className="text-xs text-gray-500 font-medium leading-relaxed">
-                                Un <strong>colmado</strong> puede entregar cupones de descuento para una <strong>peluquería</strong> cercana, incentivando que los clientes consuman en todos los negocios del barrio.
+                                Cuando un DJ dominicano trabaja con un servicio de catering de la tierra para un evento, el beneficio se multiplica. Juntos ofrecen un <strong>paquete premium</strong> irresistible para el cliente final.
                             </p>
                         </div>
                     </div>

@@ -8,6 +8,8 @@ import Profile from './pages/Profile';
 import AdminDashboard from './pages/AdminDashboard';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Terms from './pages/Terms';
+import Privacy from './pages/Privacy';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 
 const PAYPAL_CLIENT_ID = (import.meta.env.VITE_PAYPAL_CLIENT_ID || "sb").replace(/\s/g, "");
@@ -29,6 +31,8 @@ function App() {
                 <Route path="/admin" element={<AdminDashboard />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/registro" element={<Register />} />
+                <Route path="/terminos" element={<Terms />} />
+                <Route path="/privacidad" element={<Privacy />} />
               </Routes>
             </main>
             <footer className="bg-white border-t border-gray-200 py-12 mt-20">

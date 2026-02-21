@@ -4,7 +4,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import {
     User, Settings, Crown, LayoutDashboard,
     Plus, Edit3, Trash2, Camera, ExternalLink,
-    TrendingUp, Eye, MessageCircle, Check, Play, Zap, X, ChevronRight, Star
+    TrendingUp, Eye, MessageCircle, Check, Play, CreditCard
 } from 'lucide-react';
 import { PayPalButtons } from "@paypal/react-paypal-js";
 import { supabase } from '../lib/supabase';
