@@ -260,9 +260,9 @@ const Home: React.FC = () => {
                             <div className="size-14 rounded-2xl bg-white flex items-center justify-center text-dr-blue shadow-sm mb-6">
                                 <TrendingUp size={28} />
                             </div>
-                            <h3 className="text-xl font-black mb-4 uppercase tracking-tight">Economía Circular</h3>
+                            <h3 className="text-xl font-black mb-4 uppercase tracking-tight">Suministros Estratégicos</h3>
                             <p className="text-sm text-gray-500 font-medium leading-relaxed">
-                                Una <strong>frutería</strong> puede ofrecer descuentos especiales en excedentes a <strong>restaurantes</strong> de la red, reduciendo costes y desperdicio.
+                                Una <strong>frutería dominicana</strong> puede vender sus productos frescos a un <strong>restaurante dominicano</strong> con precios preferenciales, ganando un cliente fijo y el restaurante un proveedor de confianza y calidad nacional.
                             </p>
                         </div>
                         <div className="card p-8 bg-surface-2 border-none hover:translate-y-[-8px] transition-all">
@@ -271,16 +271,16 @@ const Home: React.FC = () => {
                             </div>
                             <h3 className="text-xl font-black mb-4 uppercase tracking-tight">Alianzas de Eventos</h3>
                             <p className="text-sm text-gray-500 font-medium leading-relaxed">
-                                Una <strong>floristería</strong> y un <strong>DJ</strong> pueden crear paquetes conjuntos para bodas y bautizos, atrayendo más clientes juntos.
+                                Una <strong>decoradora de eventos</strong> y un <strong>DJ</strong> pueden crear paquetes conjuntos para bautizos y bodas, ofreciendo un mejor precio final al cliente y asegurando trabajo para ambos.
                             </p>
                         </div>
                         <div className="card p-8 bg-surface-2 border-none hover:translate-y-[-8px] transition-all">
                             <div className="size-14 rounded-2xl bg-white flex items-center justify-center text-dr-gold shadow-sm mb-6">
                                 <Award size={28} />
                             </div>
-                            <h3 className="text-xl font-black mb-4 uppercase tracking-tight">Ventas Cruzadas</h3>
+                            <h3 className="text-xl font-black mb-4 uppercase tracking-tight">Fomento del Consumo</h3>
                             <p className="text-sm text-gray-500 font-medium leading-relaxed">
-                                Un <strong>colmado</strong> puede promocionar las ofertas de una <strong>peluquería</strong> cercana a cambio de visibilidad mutua en sus locales.
+                                Un <strong>colmado</strong> puede entregar cupones de descuento para una <strong>peluquería</strong> cercana, incentivando que los clientes consuman en todos los negocios dominicanos del barrio.
                             </p>
                         </div>
                     </div>
