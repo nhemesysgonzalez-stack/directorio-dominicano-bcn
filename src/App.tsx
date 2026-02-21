@@ -10,7 +10,8 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 
-const PAYPAL_CLIENT_ID = import.meta.env.VITE_PAYPAL_CLIENT_ID || "test";
+const PAYPAL_CLIENT_ID = (import.meta.env.VITE_PAYPAL_CLIENT_ID || "sb").replace(/\s/g, "");
+
 
 function App() {
   return (
