@@ -213,8 +213,7 @@ const Home: React.FC = () => {
                     <p className="text-2xl text-white/50 font-bold mb-20 uppercase tracking-[0.3em]">Impulsa tu comercio hoy mismo</p>
 
                     <div className="flex flex-col sm:flex-row gap-8 justify-center">
-                        <Link to="/registro" className="px-16 py-8 bg-white text-dr-red hover:bg-[#002B5B] hover:text-white font-black text-2xl uppercase tracking-widest rounded-[32px] transition-all">REGISTRAR MI NEGOCIO</Link>
-                        <Link to="/planes" className="px-16 py-8 border-4 border-white/40 hover:border-white text-white font-black text-2xl uppercase tracking-widest rounded-[32px] transition-all">VER PLANES PREMIUM</Link>
+                        <Link to="/registro" className="px-16 py-8 bg-white text-dr-red hover:bg-[#002B5B] hover:text-white font-black text-2xl uppercase tracking-widest rounded-[32px] transition-all">REGISTRAR MI NEGOCIO GRATIS</Link>
                     </div>
                 </div>
             </section>
