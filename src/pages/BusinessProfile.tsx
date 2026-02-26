@@ -42,9 +42,9 @@ const BusinessProfile: React.FC = () => {
             slug: 'restaurante-paraiso-vip',
             category: 'Restaurantes',
             description: 'Especialistas en comida dominicana. Mofongo, sancocho y un ambiente espectacular en Sants-Badal.',
-            long_description: 'Ubicado en el corazón de Sants-Badal, Restaurante Paraíso VIP es un referente de la gastronomía dominicana en Barcelona. Ofrecemos los platos más tradicionales con el sabor auténtico de nuestra tierra, desde un mofongo bien sazonado hasta el clásico sancocho nacional.\n\nVen a disfrutar de nuestra hospitalidad en un ambiente familiar y vibrante, ideal para celebraciones o una comida tranquila con lo mejor de Quisqueya.',
-            address: 'Carrer de Carreras I Candi, 1, 08028 Barcelona',
-            city: 'Barcelona',
+            long_description: 'Ubicado en el corazón de Sants-Badal, Restaurante Paraíso VIP es un referente de la gastronomía dominicana en Cataluña. Ofrecemos los platos más tradicionales con el sabor auténtico de nuestra tierra, desde un mofongo bien sazonado hasta el clásico sancocho nacional.\n\nVen a disfrutar de nuestra hospitalidad en un ambiente familiar y vibrante, ideal para celebraciones o una comida tranquila con lo mejor de Quisqueya.',
+            address: 'Carrer de Carreras I Candi, 1, 08028 Cataluña',
+            city: 'Cataluña',
             lat: 41.3735,
             lng: 2.1284,
             phone: '932 77 74 37',
@@ -72,7 +72,7 @@ const BusinessProfile: React.FC = () => {
         };
 
         const mockReviews: Review[] = [
-            { id: 'r1', user_id: 'u1', business_id: '1', rating: 5, comment: '¡El mejor sancocho de Barcelona! Me sentí como en mi casa.', user_name: 'Rosa M.', created_at: new Date().toISOString() },
+            { id: 'r1', user_id: 'u1', business_id: '1', rating: 5, comment: '¡El mejor sancocho de Cataluña! Me sentí como en mi casa.', user_name: 'Rosa M.', created_at: new Date().toISOString() },
             { id: 'r2', user_id: 'u2', business_id: '1', rating: 4, comment: 'Muy buena comida, pero el local se llena mucho los fines de semana. Recomiendo reservar.', user_name: 'Juan P.', created_at: new Date().toISOString() }
         ];
 
@@ -328,7 +328,7 @@ const BusinessProfile: React.FC = () => {
                                     <div>
                                         <h4 className="text-[10px] font-black uppercase tracking-widest text-blue-400 mb-4">SINERGIAS ACTIVAS ✅</h4>
                                         <div className="space-y-3">
-                                            {(business.synergy_partners || ['Colmado Carlos', 'Sabor Latino BCN']).map(partner => (
+                                            {(business.synergy_partners || ['Colmado Carlos', 'Sabor Latino Cataluña']).map(partner => (
                                                 <div key={partner} className="flex items-center gap-3 p-3 bg-white/5 rounded-2xl border border-white/10">
                                                     <div className="size-2 bg-green-400 rounded-full shadow-[0_0_10px_rgba(74,222,128,0.5)]"></div>
                                                     <span className="text-xs font-bold">{partner}</span>

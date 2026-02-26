@@ -26,7 +26,7 @@ const Profile: React.FC = () => {
         description: '',
         long_description: '',
         address: '',
-        city: 'Barcelona',
+        city: 'Cataluña',
         phone: '',
         whatsapp: '',
         instagram: '',
@@ -189,7 +189,7 @@ const Profile: React.FC = () => {
                                             </div>
 
                                             <div className="form-group">
-                                                <label className="form-label text-dr-blue font-black uppercase tracking-widest text-[10px] mb-3 block">Dirección Completa (Barcelona)</label>
+                                                <label className="form-label text-dr-blue font-black uppercase tracking-widest text-[10px] mb-3 block">Dirección Completa (Cataluña)</label>
                                                 <input
                                                     type="text"
                                                     required
@@ -250,7 +250,7 @@ const Profile: React.FC = () => {
                                                     />
                                                 </div>
                                                 <div className="form-group">
-                                                    <label className="form-label">Ciudad</label>
+                                                    <label className="form-label">Zona/Provincia (Cataluña)</label>
                                                     <select
                                                         className="form-input"
                                                         value={formData.city}
@@ -368,8 +368,8 @@ const Profile: React.FC = () => {
                                     <input type="email" disabled className="form-input bg-gray-50 opacity-60" defaultValue={user?.email} />
                                 </div>
                                 <div className="form-group">
-                                    <label className="form-label">Ciudad</label>
-                                    <select className="form-input" defaultValue={user?.city || 'Barcelona'}>
+                                    <label className="form-label">Zona/Provincia (Cataluña)</label>
+                                    <select className="form-input" defaultValue={user?.city || 'Cataluña'}>
                                         {CITIES.map(c => <option key={c} value={c}>{c}</option>)}
                                     </select>
                                 </div>

@@ -16,7 +16,7 @@ const Directory: React.FC = () => {
     // Filters
     const search = searchParams.get('search') || '';
     const category = searchParams.get('category') || '';
-    const city = searchParams.get('city') || 'Barcelona';
+    const city = searchParams.get('city') || 'Cataluña';
 
     useEffect(() => {
         fetchBusinesses();
@@ -31,9 +31,9 @@ const Directory: React.FC = () => {
                 name: 'Restaurante El Criollo',
                 slug: 'restaurante-el-criollo',
                 category: 'Restaurantes',
-                description: 'El auténtico sabor dominicano en el corazón de Barcelona.',
-                address: 'Carrer de Trafalgar, 45, Barcelona',
-                city: 'Barcelona',
+                description: 'El auténtico sabor dominicano en el corazón de Cataluña.',
+                address: 'Carrer de Trafalgar, 45, Cataluña',
+                city: 'Cataluña',
                 phone: '934 12 34 56',
                 images: ['https://images.unsplash.com/photo-1514361892635-6b07e31e75f9?q=80&w=800&auto=format&fit=crop'],
                 is_premium: true,
@@ -52,8 +52,8 @@ const Directory: React.FC = () => {
                 slug: 'colmado-la-bendicion',
                 category: 'Colmados',
                 description: 'Todos los productos de nuestra tierra.',
-                address: 'Carrer de la Unió, 12, Barcelona',
-                city: 'Barcelona',
+                address: 'Carrer de la Unió, 12, Cataluña',
+                city: 'Cataluña',
                 phone: '931 22 33 44',
                 images: ['https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=800&auto=format&fit=crop'],
                 is_premium: false,
@@ -213,7 +213,7 @@ const Directory: React.FC = () => {
                         <h3 className="text-3xl font-black mb-4 uppercase tracking-tighter">Sin resultados</h3>
                         <p className="text-text-muted font-medium mb-10 leading-relaxed">No hemos encontrado ningún negocio bajo estos términos. Intenta ampliar tu búsqueda o cambiar la categoría.</p>
                         <button
-                            onClick={() => setSearchParams({ city: 'Barcelona' })}
+                            onClick={() => setSearchParams({ city: 'Cataluña' })}
                             className="btn btn-primary btn-lg"
                         >
                             Limpiar Filtros

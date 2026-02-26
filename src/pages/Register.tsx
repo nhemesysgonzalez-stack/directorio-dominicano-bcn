@@ -146,7 +146,7 @@ const Register: React.FC = () => {
                     <div className="p-6 bg-surface-2 rounded-2xl border border-gray-100 flex items-start gap-4">
                         <input type="checkbox" required className="mt-1 size-4 accent-dr-blue" />
                         <p className="text-xs text-gray-500 font-medium leading-relaxed">
-                            Acepto los <Link to="/terminos" className="text-dr-blue font-bold">Términos y Condiciones</Link> y la <Link to="/privacidad" className="text-dr-blue font-bold">Política de Privacidad</Link>. Entiendo que el Directorio Dominicano BCN protege mis datos según la GDPR.
+                            Acepto los <Link to="/terminos" className="text-dr-blue font-bold">Términos y Condiciones</Link> y la <Link to="/privacidad" className="text-dr-blue font-bold">Política de Privacidad</Link>. Entiendo que el Directorio Dominicano Cataluña protege mis datos según la GDPR.
                         </p>
                     </div>
 

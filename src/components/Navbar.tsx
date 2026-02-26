@@ -36,7 +36,7 @@ const Navbar: React.FC = () => {
                             Directorio <span className="text-dr-red">Dominicano</span>
                         </span>
                         <span className={`text-[10px] font-black uppercase tracking-[0.4em] opacity-60 transition-colors duration-500 ${scrolled ? 'text-dr-navy' : 'text-white'}`}>
-                            Barcelona
+                            Cataluña
                         </span>
                     </div>
                 </Link>

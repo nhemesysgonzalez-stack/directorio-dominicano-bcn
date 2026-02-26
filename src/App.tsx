@@ -52,7 +52,7 @@ function App() {
                           Directorio <span className="text-dr-red">Dominicano</span>
                         </span>
                         <span className="text-xs font-black uppercase tracking-[0.4em] text-white/40">
-                          Barcelona
+                          Cataluña
                         </span>
                       </div>
                     </Link>
@@ -99,7 +99,7 @@ function App() {
 
                 <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-6">
                   <div className="text-white/30 text-[10px] font-black uppercase tracking-[0.2em]">
-                    © 2026 Directorio Dominicano BCN. Unimos Fuerzas.
+                    © 2026 Directorio Dominicano Cataluña. Unimos Fuerzas.
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-white/20 text-[10px] font-bold uppercase">Tecnología</span>

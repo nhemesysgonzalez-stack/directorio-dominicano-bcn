@@ -16,7 +16,7 @@ const Home: React.FC = () => {
                     <img
                         src="https://images.unsplash.com/photo-1583526017992-66fd368d374f?q=80&w=1600&auto=format&fit=crop"
                         className="w-full h-full object-cover opacity-40"
-                        alt="Barcelona Skyline"
+                        alt="Cataluña Skyline"
                     />
                     <div className="absolute inset-0 bg-gradient-to-b from-[#001A3D]/90 via-[#001A3D]/70 to-[#001A3D]"></div>
                 </div>
@@ -27,11 +27,13 @@ const Home: React.FC = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 1 }}
                     >
-                        <h1 className="text-5xl md:text-[100px] font-black text-white mb-8 tracking-tighter leading-[0.9] uppercase">
-                            DIRECTORIO <br /> <span className="text-[#D31F3B]">DOMINICANO</span> <br /> BARCELONA
+                        <h1 className="text-5xl md:text-[80px] font-black text-white mb-6 tracking-tighter leading-[0.9] uppercase">
+                            NO TIENES QUE MIRAR EN VARIAS REDES SOCIALES <br />
+                            <span className="text-[#D31F3B]">TODO EN UN LUGAR</span> <br /> 
+                            CENTRALIZADO
                         </h1>
-                        <p className="text-xl md:text-3xl text-white/60 font-medium max-w-3xl mx-auto mb-16 leading-relaxed">
-                            La plataforma definitiva para encontrar el sabor, los servicios y la gente de nuestra tierra en Barcelona.
+                        <p className="text-xl md:text-3xl text-white/90 font-black max-w-4xl mx-auto mb-16 leading-relaxed bg-[#D31F3B]/80 px-6 py-3 rounded-2xl">
+                            AQUÍ TIENES TODOS LOS NEGOCIOS DOMINICANOS DE CATALUÑA
                         </p>
                     </motion.div>
 
@@ -51,7 +53,7 @@ const Home: React.FC = () => {
                             <div className="hidden md:block h-12 w-px bg-slate-100 mx-4"></div>
                             <div className="hidden md:flex items-center gap-3 px-8 py-5 text-slate-400 font-bold whitespace-nowrap text-lg">
                                 <MapPin size={24} className="text-[#D31F3B]" />
-                                <span>Barcelona</span>
+                                <span>Cataluña</span>
                             </div>
                             <Link
                                 to={`/directorio?search=${searchTerm}`}
@@ -98,7 +100,7 @@ const Home: React.FC = () => {
                             </div>
                             <div className="md:col-span-8">
                                 <p className="text-2xl text-slate-500 font-medium leading-relaxed italic">
-                                    Nace de la necesidad de <span className="text-[#002B5B] font-black underline decoration-[#D31F3B]/20">centralizar nuestra fuerza comercial</span> en Barcelona. Es la herramienta para que ningún dominicano se sienta perdido y sepa dónde encontrar su sazón, su estilo y su gente.
+                                    Nace de la necesidad de <span className="text-[#002B5B] font-black underline decoration-[#D31F3B]/20">centralizar nuestra fuerza comercial</span> en Cataluña. Es la herramienta para que ningún dominicano se sienta perdido y sepa dónde encontrar su sazón, su estilo y su gente.
                                 </p>
                             </div>
                         </div>
@@ -199,6 +201,68 @@ const Home: React.FC = () => {
                                 <span className="font-black text-xs uppercase tracking-[0.3em] text-[#002B5B]">{cat.name}</span>
                             </Link>
                         ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* ── MAP SECTION ── */}
+            <section className="py-24 bg-surface-2 relative overflow-hidden">
+                <div className="max-w-7xl mx-auto px-6 relative z-10">
+                    <div className="text-center mb-16">
+                        <span className="badge bg-[#D31F3B]/10 text-[#D31F3B] mb-4 px-6 py-2">UBICACIONES</span>
+                        <h2 className="text-5xl md:text-7xl font-black text-[#002B5B] mb-6 tracking-tighter">Nuestra Vitrina en el Mapa</h2>
+                        <p className="text-xl text-slate-500 font-bold max-w-2xl mx-auto">Encuentra a un solo clic qué negocios, peluquerías y restaurantes dominicanos están cerca de ti.</p>
+                    </div>
+
+                    <div className="relative w-full aspect-[16/9] md:aspect-[21/9] bg-slate-200 rounded-[40px] overflow-hidden shadow-2xl border-4 border-white">
+                        {/* Static Map Image / Representation */}
+                        <img 
+                            src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=1600&auto=format&fit=crop" 
+                            className="w-full h-full object-cover opacity-80"
+                            alt="Mapa de Cataluña" 
+                        />
+                        <div className="absolute inset-0 bg-blue-900/10"></div>
+                        
+                        {/* Fake Pins */}
+                        <div className="absolute top-[30%] left-[45%] group cursor-pointer">
+                            <div className="size-10 bg-[#D31F3B] rounded-full flex items-center justify-center text-white shadow-xl border-2 border-white animate-bounce ring-4 ring-[#D31F3B]/30">
+                                <MapPin size={24} />
+                            </div>
+                            <div className="opacity-0 group-hover:opacity-100 absolute bottom-full left-1/2 -translate-x-1/2 mb-4 bg-white p-4 rounded-3xl shadow-2xl w-64 transition-all pointer-events-none z-20">
+                                <h4 className="font-black text-[#002B5B] uppercase text-sm mb-1">El Fogón Sabroso</h4>
+                                <p className="text-[10px] uppercase font-bold text-gray-400 mb-2">Restaurantes • Barcelona</p>
+                                <p className="text-xs text-gray-600 line-clamp-2">Comida criolla auténtica, el mejor mangú de la zona.</p>
+                            </div>
+                        </div>
+
+                        <div className="absolute top-[45%] left-[60%] group cursor-pointer">
+                            <div className="size-10 bg-[#EAB308] rounded-full flex items-center justify-center text-white shadow-xl border-2 border-white hover:scale-110 transition-transform ring-4 ring-[#EAB308]/30">
+                                <MapPin size={24} />
+                            </div>
+                            <div className="opacity-0 group-hover:opacity-100 absolute bottom-full left-1/2 -translate-x-1/2 mb-4 bg-white p-4 rounded-3xl shadow-2xl w-64 transition-all pointer-events-none z-20">
+                                <h4 className="font-black text-[#002B5B] uppercase text-sm mb-1">Frutas El Cibao</h4>
+                                <p className="text-[10px] uppercase font-bold text-gray-400 mb-2">Fruterías • Badalona</p>
+                                <p className="text-xs text-gray-600 line-clamp-2">Plátanos, yuca, batata y productos frescos cada martes.</p>
+                            </div>
+                        </div>
+
+                        <div className="absolute top-[60%] left-[30%] group cursor-pointer">
+                            <div className="size-10 bg-[#002B5B] rounded-full flex items-center justify-center text-white shadow-xl border-2 border-white hover:scale-110 transition-transform ring-4 ring-[#002B5B]/30">
+                                <MapPin size={24} />
+                            </div>
+                            <div className="opacity-0 group-hover:opacity-100 absolute bottom-full left-1/2 -translate-x-1/2 mb-4 bg-white p-4 rounded-3xl shadow-2xl w-64 transition-all pointer-events-none z-20">
+                                <h4 className="font-black text-[#002B5B] uppercase text-sm mb-1">Stylo's VIP</h4>
+                                <p className="text-[10px] uppercase font-bold text-gray-400 mb-2">Peluquerías • L'Hospitalet</p>
+                                <p className="text-xs text-gray-600 line-clamp-2">Cortes modernos, cerquillos perfectos y trenzas.</p>
+                            </div>
+                        </div>
+
+                        {/* Map Overlay info */}
+                        <div className="absolute bottom-6 left-6 right-6 md:right-auto md:w-96 bg-white/90 backdrop-blur-md p-6 rounded-3xl shadow-xl">
+                            <h3 className="font-black text-[#002B5B] text-xl mb-2">Explora en toda Cataluña</h3>
+                            <p className="text-sm font-medium text-gray-600 mb-4">Navega por el mapa interactivo y descubre qué locales están cerca de donde vives o visitas.</p>
+                            <Link to="/directorio" className="btn btn-primary w-full shadow-lg">Ver Directorio Completo</Link>
+                        </div>
                     </div>
                 </div>
             </section>

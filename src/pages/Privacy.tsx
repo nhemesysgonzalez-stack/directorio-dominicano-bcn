@@ -38,7 +38,7 @@ const Privacy: React.FC = () => {
                         <section>
                             <h2 className="text-xl font-black text-dr-red uppercase mb-4">3. Suscripciones y Pagos</h2>
                             <p>
-                                Los pagos se procesan de forma segura a través de plataformas externas (PayPal/Stripe). El Directorio Dominicano BCN no almacena los datos completos de sus tarjetas de crédito o débito.
+                                Los pagos se procesan de forma segura a través de plataformas externas (PayPal/Stripe). El Directorio Dominicano Cataluña no almacena los datos completos de sus tarjetas de crédito o débito.
                             </p>
                         </section>
 

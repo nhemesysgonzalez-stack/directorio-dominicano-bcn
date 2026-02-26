@@ -17,7 +17,7 @@ const Terms: React.FC = () => {
                                 <FileText size={18} /> 1. Aceptación de los Términos
                             </h2>
                             <p>
-                                Al acceder y utilizar el Directorio Dominicano BCN, usted acepta estar sujeto a estos Términos y Condiciones. Si no está de acuerdo con alguna parte de estos términos, no podrá acceder al servicio.
+                                Al acceder y utilizar el Directorio Dominicano Cataluña, usted acepta estar sujeto a estos Términos y Condiciones. Si no está de acuerdo con alguna parte de estos términos, no podrá acceder al servicio.
                             </p>
                         </section>
 
@@ -26,7 +26,7 @@ const Terms: React.FC = () => {
                                 <Shield size={18} /> 2. Registro de Negocios
                             </h2>
                             <p>
-                                Los propietarios de negocios son responsables de la veracidad de la información proporcionada. El Directorio Dominicano BCN se reserva el derecho de retirar cualquier perfil que contenga información falsa, engañosa o que no cumpla con los estándares de la comunidad.
+                                Los propietarios de negocios son responsables de la veracidad de la información proporcionada. El Directorio Dominicano Cataluña se reserva el derecho de retirar cualquier perfil que contenga información falsa, engañosa o que no cumpla con los estándares de la comunidad.
                             </p>
                         </section>
 
@@ -40,14 +40,14 @@ const Terms: React.FC = () => {
                         <section>
                             <h2 className="text-xl font-black text-dr-blue uppercase mb-4">4. Propiedad Intelectual</h2>
                             <p>
-                                Las marcas, logotipos y contenidos publicados por los negocios son propiedad de sus respectivos dueños. El diseño, código y estructura del directorio son propiedad exclusiva del Directorio Dominicano BCN.
+                                Las marcas, logotipos y contenidos publicados por los negocios son propiedad de sus respectivos dueños. El diseño, código y estructura del directorio son propiedad exclusiva del Directorio Dominicano Cataluña.
                             </p>
                         </section>
 
                         <section>
                             <h2 className="text-xl font-black text-dr-blue uppercase mb-4">5. Limitación de Responsabilidad</h2>
                             <p>
-                                El Directorio Dominicano BCN funciona como un puente de conexión. No nos hacemos responsables de la calidad de los servicios o productos finales ofrecidos por los negocios listados, aunque realizamos esfuerzos por verificar la legitimidad de cada uno.
+                                El Directorio Dominicano Cataluña funciona como un puente de conexión. No nos hacemos responsables de la calidad de los servicios o productos finales ofrecidos por los negocios listados, aunque realizamos esfuerzos por verificar la legitimidad de cada uno.
                             </p>
                         </section>
 

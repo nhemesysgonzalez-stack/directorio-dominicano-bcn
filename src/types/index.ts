@@ -94,4 +94,4 @@ export const CATEGORIES: Category[] = [
     { id: '12', name: 'Otros', icon: '✨', slug: 'otros', color: '#6b7280' },
 ];
 
-export const CITIES = ['Barcelona', 'Madrid', 'Valencia', 'Sevilla', 'Zaragoza', 'Digital / Toda España'];
+export const CITIES = ['Barcelona (Capital y provincia)', 'Tarragona', 'Lleida', 'Girona', 'Digital / Toda Cataluña'];
