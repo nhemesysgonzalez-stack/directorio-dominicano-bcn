@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 
 const Home: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState('');
+    const [location, setLocation] = useState('Cataluña');
 
     return (
         <div className="w-full bg-white text-slate-900 overflow-x-hidden">
@@ -53,10 +54,21 @@ const Home: React.FC = () => {
                             <div className="hidden md:block h-12 w-px bg-slate-100 mx-4"></div>
                             <div className="hidden md:flex items-center gap-3 px-8 py-5 text-slate-400 font-bold whitespace-nowrap text-lg">
                                 <MapPin size={24} className="text-[#D31F3B]" />
-                                <span>Cataluña</span>
+                                <select 
+                                    value={location}
+                                    onChange={(e) => setLocation(e.target.value)}
+                                    className="bg-transparent border-none outline-none focus:outline-none cursor-pointer text-[#002B5B]"
+                                >
+                                    <option value="Cataluña">Toda Cataluña</option>
+                                    {CATEGORIES.filter(c=>false) /* Just to avoid unused warning, replacing below */}
+                                    <option value="Barcelona (Capital y provincia)">Barcelona</option>
+                                    <option value="Tarragona">Tarragona</option>
+                                    <option value="Lleida">Lleida</option>
+                                    <option value="Girona">Girona</option>
+                                </select>
                             </div>
                             <Link
-                                to={`/directorio?search=${searchTerm}`}
+                                to={`/directorio?search=${searchTerm}${location !== 'Cataluña' ? `&city=${location}` : ''}`}
                                 className="w-full md:w-auto px-16 py-7 bg-[#D31F3B] hover:bg-[#B31932] text-white font-black text-2xl uppercase tracking-widest rounded-[32px] transition-all text-center"
                             >
                                 Buscar

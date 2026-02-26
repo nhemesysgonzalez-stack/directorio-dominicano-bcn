@@ -17,6 +17,7 @@ const Profile: React.FC = () => {
     const [activeTab, setActiveTab] = useState<'profile' | 'businesses'>('profile');
     const [showBusinessForm, setShowBusinessForm] = useState(searchParams.get('setup') === 'business');
     const [myBusinesses, setMyBusinesses] = useState<Business[]>([]);
+    const [images, setImages] = useState<string[]>([]);
     const selectedPlan = 'negocio_gratis'; // Por ahora solo plan gratis
 
     // Business Form State
@@ -39,6 +40,24 @@ const Profile: React.FC = () => {
         if (!user) navigate('/login');
         else fetchMyBusinesses();
     }, [user]);
+
+    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const files = Array.from(e.target.files || []);
+        const remainingSlots = 5 - images.length;
+        const filesToProcess = files.slice(0, remainingSlots);
+
+        filesToProcess.forEach(file => {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                 setImages(prev => [...prev, reader.result as string]);
+            };
+            reader.readAsDataURL(file);
+        });
+    };
+
+    const handleRemoveImage = (index: number) => {
+        setImages(prev => prev.filter((_, i) => i !== index));
+    };
 
     const fetchMyBusinesses = async () => {
         if (!user) return;
@@ -64,7 +83,7 @@ const Profile: React.FC = () => {
             ...formData,
             owner_id: user.id,
             slug,
-            images: ['https://images.unsplash.com/photo-1514361892635-6b07e31e75f9?q=80&w=800&auto=format&fit=crop'], // Placeholder
+            images: images.length > 0 ? images : ['https://images.unsplash.com/photo-1514361892635-6b07e31e75f9?q=80&w=800&auto=format&fit=crop'],
             is_premium: selectedPlan === 'negocio_premium',
             is_approved: true, // Auto-approve for now
             is_featured: selectedPlan === 'negocio_premium',
@@ -222,6 +241,26 @@ const Profile: React.FC = () => {
                                                     value={formData.long_description}
                                                     onChange={e => setFormData({ ...formData, long_description: e.target.value })}
                                                 />
+                                            </div>
+
+                                            <div className="form-group md:col-span-2">
+                                                <label className="form-label text-dr-blue font-black uppercase tracking-widest text-[10px] mb-3 block">Fotos del Negocio (Máx 5)</label>
+                                                <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-4">
+                                                    {images.map((img, i) => (
+                                                        <div key={i} className="relative aspect-square rounded-2xl overflow-hidden shadow-sm group">
+                                                            <img src={img} className="w-full h-full object-cover" alt={`Preview ${i}`} />
+                                                            <button type="button" onClick={() => handleRemoveImage(i)} className="absolute top-2 right-2 size-6 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"><Trash2 size={12} /></button>
+                                                        </div>
+                                                    ))}
+                                                    {images.length < 5 && (
+                                                        <label className="aspect-square rounded-2xl border-2 border-dashed border-gray-200 flex flex-col items-center justify-center text-gray-400 hover:border-dr-blue hover:text-dr-blue transition-colors cursor-pointer bg-gray-50">
+                                                            <Camera size={24} className="mb-2" />
+                                                            <span className="text-[10px] font-black uppercase">Añadir Foto</span>
+                                                            <input type="file" multiple accept="image/*" className="hidden" onChange={handleImageUpload} />
+                                                        </label>
+                                                    )}
+                                                </div>
+                                                <p className="text-xs text-gray-400 font-bold uppercase">Puedes subir hasta 5 imágenes de tu local o productos.</p>
                                             </div>
 
                                             {selectedPlan === 'negocio_premium' && (
